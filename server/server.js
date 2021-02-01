@@ -5,13 +5,13 @@ const mongoose = require('mongoose');
 const Artwork = require('./models/artwork');
 
 mongoose.connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
-.then(() => {
-    console.log("MONGO CONNECTION OPEN!!!")
-})
-.catch(err => {
-    console.log("OH NO MONGO CONNECTION ERROR!!!!")
-    console.log(err)
-});
+    .then(() => {
+        console.log("MONGO CONNECTION OPEN!!!")
+    })
+    .catch(err => {
+        console.log("OH NO MONGO CONNECTION ERROR!!!!")
+        console.log(err)
+    });
 
 app.set('views', path.join(__dirname, 'views'));
 
