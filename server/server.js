@@ -1,9 +1,10 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const Artwork = require('./models/artwork');
+
+const app = express();
 
 mongoose.connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(() => {
