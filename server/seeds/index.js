@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const Artwork = require('../models/artwork');
 const { descriptors, types } = require('./seedHelpers');
@@ -35,6 +34,7 @@ const seedDB = async () => {
         let arr = [];
         const art = new Artwork({
             title: `${sampleName(descriptors)} ${sampleName(types)}`,
+            image: 'https://source.unsplash.com/collection/9248817',
             //author: '6013262b7c0602d261a8fefc',
             username: 'Freya',
             description: 'Nec te paulo numquam adipisci, duo ut regione detraxit. Pro te summo ridens utroque.',

@@ -25,8 +25,7 @@ app.get('/', (req, res) => {
 
 app.get('/artworks', async (req, res) => {
     const artworks = await Artwork.find({});
-    console.log(artworks); 
-    res.send('Artworks page');
+    res.send(artworks);
 })
 
 app.get('/artworks/new', (req, res) => {// this route is to render a 'NEW' form
