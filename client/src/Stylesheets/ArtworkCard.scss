@@ -1,0 +1,36 @@
+div[class="card-body"]{
+    margin: 0;
+    padding: 0%;
+    border-radius: 0px;
+    background-color: rgba(17, 16, 16, 1);
+}
+
+div[class="card-img-overlay"] {
+    margin: 0;
+    padding: 0%;
+    border-radius: 0px;
+    position: absolute;
+}
+
+div[class="col"] {
+    padding: 15px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colorPalette{
+    width: 100%;
+    height: auto;
+    display: block;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.colorBox{
+    height: 100%;
+    width: 100vh;
+    position: absolute;
+}
+

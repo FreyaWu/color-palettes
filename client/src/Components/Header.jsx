@@ -8,7 +8,7 @@ import Button from 'react-bootstrap/Button';
 
 function Header() {
     return (
-        <Navbar bg="dark" expand="lg" variant="dark">
+        <Navbar bg="transparent" expand="lg" variant="dark" fixed="top" >
             <Navbar.Brand href="#home">Color-Palettes</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">

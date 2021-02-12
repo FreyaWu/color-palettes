@@ -61,6 +61,6 @@ app.delete('/artworks/:id', async (req, res) => {
     res.send('The artwork has been deleted.')
 })
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000');
+app.listen(8080, () => {
+    console.log('Serving on port 8080');
 })
