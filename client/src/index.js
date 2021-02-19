@@ -4,16 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import Header from './Components/Header';
-import Cover from './Components/Cover';
-import Footer from './Components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Header />
     <App />
-    <Footer />
   </React.StrictMode>,
   document.getElementById('root')
 );

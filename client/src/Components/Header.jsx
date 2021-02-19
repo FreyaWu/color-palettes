@@ -5,17 +5,43 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
+import styled from 'styled-components';
+
+const BORDER_RADIUS = 3;
+
+const NavbarContainer = styled(Navbar)`
+    border-bottom: 0;
+`;
+
+const NavbarBrand = styled(Navbar.Brand)`
+    border: ${BORDER_RADIUS}px solid black;
+    border-radius: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+`;
+
+const NavlinkContainer = styled(Nav.Link)`
+    border-bottom: ${BORDER_RADIUS}px solid black;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 15px !important; 
+`;
+
+const SearchContainer = styled(FormControl)`
+    border: ${BORDER_RADIUS}px solid #E2d1ff; 
+    backgroundcolor: #Ccaff7;
+`;
 
 function Header() {
     return (
-        <Navbar bg="transparent" expand="lg" variant="dark" fixed="top" >
-            <Navbar.Brand href="#home">Color-Palettes</Navbar.Brand>
+        <NavbarContainer bg="light" expand="lg" sticky="top" >
+            <NavbarBrand href="#home">Color-Palettes</NavbarBrand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#link">Gallery</Nav.Link>
-                    <Nav.Link href="#link">Create Palette</Nav.Link>
+                    <NavlinkContainer href="/">Home</NavlinkContainer>
+                    <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
+                    <NavlinkContainer href="#link">Create Palette</NavlinkContainer>
                     {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -25,11 +51,12 @@ function Header() {
                     </NavDropdown> */}
                 </Nav>
                 <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+                    <SearchContainer type="text" placeholder="Search" className="mr-sm-2" />
                     <Button variant="outline-success">Search</Button>
+                    <Button variant="outline-dark" href="/register">Register</Button>
                 </Form>
             </Navbar.Collapse>
-        </Navbar>
+        </NavbarContainer>
     );
 }
 

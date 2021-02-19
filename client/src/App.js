@@ -1,51 +1,47 @@
 // import logo from './logo.svg';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';//axios is a library, promise-based
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Cover from './Components/Cover';
-import ArtworkCard from './Components/ArtworkCard';
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './Stylesheets/App.scss';
 
-function chunkArray(arr, size) {
-  var groupedArray = [];
-  for (let i = 0; i < arr.length; i += size) {
-    groupedArray.push(arr.slice(i, i+size));
-  }
-  return groupedArray; //chunkArray(arr, 3)output: [[xx, xx, xx], [xx, xx, xx], ...]
+import HomePage from './Pages/Home';
+import RegisterPage from './Pages/Register';
+import BuildPage from './Pages/Build';
+import GalleryPage from './Pages/Gallery';
+import PalettePage from './Pages/PaletteGallery';
+import ArtworkPage from './Pages/Artwork';
+
+import styled from 'styled-components';
+
+const MainContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100vh;    
+`;
+
+function RouterSwitch() {
+  return (
+      <BrowserRouter>
+      <Switch>
+        <Route exact path='/' component={HomePage}/>
+        <Route exact path='/register' component={RegisterPage}/>
+        <Route exact path='/build' component={BuildPage}/>
+        <Route exact path='/gallery' component={GalleryPage}/>
+        <Route exact path='/palettes' component={PalettePage}/>
+        <Route exact path='/artworks/:id' component={ArtworkPage}/>
+      </Switch>
+      </BrowserRouter>
+  );
 }
 
 function App() {
-  const [artworks, setArtworks] = useState([]);
-
-    useEffect(() => {
-        axios.get('/artworks')
-            .then(res => {
-                const artworks = res.data;
-                setArtworks(artworks);//what doe it do?
-            })
-            .catch(console.log);
-    }, []);//[]?
-
-    const loading = artworks.length === 0;
-    
   return (
-      <Container fluid px-0>
-            <Cover />
-            <div className="artGallery">
-            {loading ? "Loading" : chunkArray(artworks, 4).map(chunk => (//map chunks of artworks [xx, xx, xx] into each row
-              <Row >
-                {chunk.map(artwork => ( //map each artwork into cols
-                  <Col>
-                    <ArtworkCard artwork={artwork}/>
-                  </Col>
-                ))}
-              </Row >
-          ))}
-          </div>
-      </Container> 
+    <MainContainer>
+      <BrowserRouter>
+        <RouterSwitch />
+      </BrowserRouter>
+    </MainContainer>
   );
 }
+
 
 export default App;

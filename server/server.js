@@ -1,12 +1,18 @@
 const express = require('express');
-const path = require('path');
-const mongoose = require('mongoose');
-const methodOverride = require('method-override');
-const Artwork = require('./models/artwork');
-
+const bodyParser = require('body-parser');
 const app = express();
+const path = require('path');
+const methodOverride = require('method-override');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
-mongoose.connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+require('./models/Artwork');// same with const Artwork = require('./models/artwork');
+require('./models/Palette');
+// require('./models/User');
+
+require('mongoose').connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
     })
@@ -18,49 +24,45 @@ mongoose.connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: t
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(bodyParser.json());
+
+
+
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret!',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));//the authenticate()method comes from passport 
+
+passport.serializeUser(User.serializeUser());//store user, method also automatically added in
+passport.deserializeUser(User.deserializeUser());//unstore user
+
+
+
+const artworksRouter = require('./routes/artworks');
+const palettesRouter = require('./routes/palettes');
+const registerRouter = require('./routes/register');
+
+app.use('/artworks', artworksRouter);
+app.use('/palettes', palettesRouter);
+app.use('/register', registerRouter);
+
 
 app.get('/', (req, res) => {
     res.send('Welcome to homepage!');
 })
 
-app.get('/artworks', async (req, res) => {
-    const artworks = await Artwork.find({});
-    res.send(artworks);
-})
-
-app.get('/artworks/new', (req, res) => {// this route is to render a 'NEW' form
-
-})
-
-app.get('/artworks/:id', async (req, res) => {
-    const {id} = req.params;
-    const artwork = await Artwork.findById(id);
-    res.header('Content-Type', 'application/json');
-    res.send(JSON.stringify(artwork));
-})
-
-app.post('/artworks', async (req, res) => {// later will take user's data from the 'NEW' form
-    res.send(req.body);
-    const artwork = new Artwork(req.body.artwork);
-    await artwork.save();
-})
-
-app.get('/artworks/:id/edit', async (req, res) => {// this route is to render an 'EDIT' form
-
-})
-
-app.put('/artworks/:id', async (req, res) => {// later will take user's data from the ‘EDIT’ form
-    const {id} = req.params;
-    const updatedArtwork = await Artwork.findByIdAndUpdate(id, {...req.body.artwork});
-    console.log(updatedArtwork);
-})
-
-app.delete('/artworks/:id', async (req, res) => {
-    const {id} = req.params;
-    await Artwork.findByIdAndDelete(id);
-    res.send('The artwork has been deleted.')
-})
-
-app.listen(8080, () => {
-    console.log('Serving on port 8080');
-})
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`);
+});

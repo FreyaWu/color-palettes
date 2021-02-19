@@ -1,16 +1,14 @@
-
 const { Schema, model } = require('mongoose');
 
-const ArtworkSchema = new Schema({
+const PaletteSchema = new Schema({
     title: String,
     image: String,
-    username: String,
-    description: String,
-    colorPalette: [String],
+    size: Number,
+    colors: [String],
     // author: {
     //     type: Schema.Types.ObjectId,
     //     ref: 'User'
     // }
 });
 
-model('artworks', ArtworkSchema);
+model('palettes', PaletteSchema);

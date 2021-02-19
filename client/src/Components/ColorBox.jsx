@@ -1,9 +1,9 @@
 import React from 'react';
 
-
 function ColorBox(props) {
     return (
-        <span className = "colorbox" style={{backgroundColor:props.color, display:'block'}}></span>
+        //display:'block'
+        <span className = "colorbox" style={{backgroundColor:props.color}}></span>
     )
 }
 

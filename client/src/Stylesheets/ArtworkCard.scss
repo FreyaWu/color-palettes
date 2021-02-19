@@ -24,8 +24,8 @@ div[class="col"] {
     width: 100%;
     height: auto;
     display: block;
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    // display: grid;
+    // grid-template-columns: repeat(10, 1fr);
 }
 
 .colorBox{
