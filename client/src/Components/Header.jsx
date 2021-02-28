@@ -34,14 +34,15 @@ const SearchContainer = styled(FormControl)`
 
 function Header() {
     return (
-        <NavbarContainer bg="light" expand="lg" sticky="top" >
+        <NavbarContainer bg="light" expand="lg" sticky="top">
             <NavbarBrand href="#home">Color-Palettes</NavbarBrand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
+            <Navbar.Collapse id="basic-navbar-nav" >
+                <Nav className="mr-auto justify-content-center">
                     <NavlinkContainer href="/">Home</NavlinkContainer>
+                    <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
+                    <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
-                    <NavlinkContainer href="#link">Create Palette</NavlinkContainer>
                     {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -52,8 +53,9 @@ function Header() {
                 </Nav>
                 <Form inline>
                     <SearchContainer type="text" placeholder="Search" className="mr-sm-2" />
-                    <Button variant="outline-success">Search</Button>
-                    <Button variant="outline-dark" href="/register">Register</Button>
+                    <Button variant="light">Search</Button>
+                    <Button variant="light" href="/register">Register</Button>
+                    <Button variant="light" href="/login">Login</Button>
                 </Form>
             </Navbar.Collapse>
         </NavbarContainer>

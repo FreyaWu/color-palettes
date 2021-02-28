@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import {connect} from 'react-redux';
 
 import Container from 'react-bootstrap/Container';
 import Cover from '../Components/Cover';
@@ -10,7 +11,6 @@ import ArtworkCard from '../Components/ArtworkCard';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const ArtworksContainer = styled.div`
-    border-bottom: 8px solid black;
     background-color: #D7F29B;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -18,7 +18,7 @@ const ArtworksContainer = styled.div`
     padding-bottom: 20px;
 `;
 
-function GalleryPage() {
+function GalleryPage(props) {
     const [artworks, setArtworks] = useState([]);
 
     useEffect(() => {
@@ -31,6 +31,8 @@ function GalleryPage() {
         return () => (mounted = false);
     }, []);
 
+    console.log(props.isLoggedIn);
+
     return (
         <>
             <Cover />
@@ -38,7 +40,7 @@ function GalleryPage() {
                 <ArtworksContainer className="pt-4 px-4 card-deck">
                     {
                         artworks.map((artwork) => (
-                            <ArtworkCard key={artwork._id} artwork={artwork} />
+                            <ArtworkCard key={artwork._id} artwork={artwork} />//
                         ))
                     }
                 </ArtworksContainer>
@@ -47,4 +49,8 @@ function GalleryPage() {
     );
 }
 
-export default withHeaderFooter(GalleryPage);
+const mapStateToProps = (state) => {
+    return {isLoggedIn: state.auth.isLoggedIn}
+}
+export default withHeaderFooter(connect(mapStateToProps, null)(GalleryPage));
+

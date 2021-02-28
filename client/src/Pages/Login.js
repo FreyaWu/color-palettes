@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import {register} from '../Actions/auth';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import {login} from '../Actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuth } from '../Reducers/auth';
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 
 const PageContainer = styled.div`
     display: flex;
     height: 100vh;
     background-color: white;
 `;
+
 const FormContainer = styled(Form)`
     width:50%;
     height:50%;
@@ -22,11 +23,10 @@ const FormContainer = styled(Form)`
     padding: 3%
 `;
 
-function RegisterPage() {
+function LoginPage(props) {
     const [input, setInput] = useState({});
     const history = useHistory();
     const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(selectAuth);
 
     const handleChange = (e) => {
         setInput({...input,[e.target.name]:e.target.value});
@@ -34,26 +34,17 @@ function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(register(input));
-        history.push('/palettes');
+            dispatch(login(input));//dispatch action
+            history.push("/gallery");
     }
 
     return (
         <PageContainer fluid>
-            {/* { isLoggedIn && <Redirect to="/palettes"/> } */}
             <FormContainer onSubmit={handleSubmit}>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>
                     <Form.Control required name="username" type="string" placeholder="Enter username" onChange={handleChange}/>
                     <Form.Text className="text-muted">
-                    </Form.Text>
-                </Form.Group>
-                
-                <Form.Group controlId="email">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control required name="email" type="email" placeholder="Enter email" onChange={handleChange}/>
-                    <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
                     </Form.Text>
                 </Form.Group>
 
@@ -72,4 +63,5 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+
+export default LoginPage;

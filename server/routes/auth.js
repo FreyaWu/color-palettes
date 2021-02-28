@@ -1,14 +1,29 @@
-const registerRouter = require("express").Router();
+const authRouter = require("express").Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('../models/user');
 
-registerRouter.post('/register', async (req, res) => {
+authRouter.post('/', async (req, res) => {
+    console.log(req.body);
     const {email, username, password} = req.body;
+    
     const user = await User({ email, username});
     const registeredUser = await User.register(user, password);
-    console.log(registeredUser);
+    res.send(registeredUser);
 })
+
+authRouter.post('/login', passport.authenticate('local'), async (req, res) => {
+    res.send('Success');
+})
+    
+authRouter.get('/current-user', (req, res) => {
+    res.sendStatus(req.user ? 200 : 401);
+});
+
+authRouter.get("/logout", (req, res) => {
+    req.logout();
+    res.redirect("/");
+});
 
 // authRouter.get(
 //     "/github/callback",
@@ -25,4 +40,4 @@ registerRouter.post('/register', async (req, res) => {
 //     res.redirect("/");
 // });
 
-module.exports = registerRouter;
+module.exports = authRouter;

@@ -8,8 +8,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-require('./models/Artwork');// same with const Artwork = require('./models/artwork');
-require('./models/Palette');
+// same with const Palette = require('./models/palettes');
+require('./models/palette');
+require('./models/like');
 // require('./models/User');
 
 require('mongoose').connect('mongodb://localhost:27017/color-palette', { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
@@ -42,7 +43,7 @@ app.use(session(sessionConfig));
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));//the authenticate()method comes from passport 
+passport.use(new LocalStrategy(User.authenticate()));//the authenticate() method comes from passport 
 
 passport.serializeUser(User.serializeUser());//store user, method also automatically added in
 passport.deserializeUser(User.deserializeUser());//unstore user
@@ -51,11 +52,13 @@ passport.deserializeUser(User.deserializeUser());//unstore user
 
 const artworksRouter = require('./routes/artworks');
 const palettesRouter = require('./routes/palettes');
-const registerRouter = require('./routes/register');
+const authRouter = require('./routes/auth');
+const likeRouter = require('./routes/like');
 
 app.use('/artworks', artworksRouter);
 app.use('/palettes', palettesRouter);
-app.use('/register', registerRouter);
+app.use('/auth', authRouter);
+app.use('/like', likeRouter);
 
 
 app.get('/', (req, res) => {

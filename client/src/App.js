@@ -1,10 +1,13 @@
 // import logo from './logo.svg';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchUser }from './Actions/auth';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './Stylesheets/App.scss';
 
 import HomePage from './Pages/Home';
 import RegisterPage from './Pages/Register';
+import LoginPage from './Pages/Login';
 import BuildPage from './Pages/Build';
 import GalleryPage from './Pages/Gallery';
 import PalettePage from './Pages/PaletteGallery';
@@ -18,26 +21,26 @@ const MainContainer = styled.div`
     height: 100vh;    
 `;
 
-function RouterSwitch() {
-  return (
-      <BrowserRouter>
-      <Switch>
-        <Route exact path='/' component={HomePage}/>
-        <Route exact path='/register' component={RegisterPage}/>
-        <Route exact path='/build' component={BuildPage}/>
-        <Route exact path='/gallery' component={GalleryPage}/>
-        <Route exact path='/palettes' component={PalettePage}/>
-        <Route exact path='/artworks/:id' component={ArtworkPage}/>
-      </Switch>
-      </BrowserRouter>
-  );
-}
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
+
   return (
     <MainContainer>
       <BrowserRouter>
-        <RouterSwitch />
+        <Switch>
+          <Route exact path='/' component={HomePage}/>
+          <Route exact path='/register' component={RegisterPage}/>
+          <Route exact path='/login' component={LoginPage}/>
+          <Route exact path='/build' component={BuildPage}/>
+          <Route exact path='/gallery' component={GalleryPage}/>
+          <Route exact path='/palettes' component={PalettePage}/>
+          <Route exact path='/artworks/:id' component={ArtworkPage}/>
+        </Switch>
       </BrowserRouter>
     </MainContainer>
   );

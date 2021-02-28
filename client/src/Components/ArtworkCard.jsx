@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import ColorBox from './ColorBox';
+import { Button } from 'bootstrap';
 
 const CardOverlay = styled(Card.ImgOverlay)`
     opacity: 0;
@@ -53,7 +54,7 @@ const ColorSpan = styled.span`
 `;
 
 function ArtworkCard({artwork}) {
-    const colors = artwork.colorPalette;
+    const colors = artwork.colors;
     return (
         <Card className="border-0">
             <Link
@@ -66,7 +67,7 @@ function ArtworkCard({artwork}) {
                     <CardImage
                         className="img-fluid"
                         variant="top"
-                        src={artwork.image}
+                        src={artwork.artwork}
                     />
                     <CardOverlay>
                         <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
@@ -85,8 +86,9 @@ function ArtworkCard({artwork}) {
                 </PaletteContainer>
                 {/* <Card.Body>
                 <p>test</p>
-            </Card.Body>
-            <Card.Footer>
+            </Card.Body> */}
+            {/* <Card.Footer>
+                <Button>Like</Button>
             </Card.Footer> */}
             </Link>
         </Card>

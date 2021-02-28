@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';//这个link是干什么用的？
 import axios from 'axios';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
@@ -40,6 +41,9 @@ function PaletteGalleryPage() {
     return (
         <Container fluid className="mt-4">
             <PalettesContainer className="px-4 card-deck">
+                <Button variant="light" type="submit" class="text-center">
+                    Upload your palette
+                </Button>
                 {palettes.map(palette => (
                     <Card key={palette._id} className="border-0">
                         <Link
