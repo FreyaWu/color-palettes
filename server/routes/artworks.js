@@ -8,4 +8,11 @@ artworksRouter.get('/', async (req, res) => {
     res.send(artworks);
 });
 
+artworksRouter.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    const artwork = await Palette.findById(id);
+    // const artwork = await (await Palette.findById(id)).populated('author'); //this won't populate author
+    res.send(artwork);
+});
+
 module.exports = artworksRouter;

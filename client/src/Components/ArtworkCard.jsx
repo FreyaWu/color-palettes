@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import ColorBox from './ColorBox';
-import { Button } from 'bootstrap';
+import Button from 'react-bootstrap/Button';
+import LikeButton from '../Components/LikeBotton';
 
 const CardOverlay = styled(Card.ImgOverlay)`
     opacity: 0;
@@ -53,8 +55,14 @@ const ColorSpan = styled.span`
     background-color: ${props => props.color};
 `;
 
+
 function ArtworkCard({artwork}) {
     const colors = artwork.colors;
+    
+    const fetchLikes = async () => {
+        const likes = await axios.get(`/like/${artwork._id}/count`);
+    };
+    
     return (
         <Card className="border-0">
             <Link
@@ -87,10 +95,12 @@ function ArtworkCard({artwork}) {
                 {/* <Card.Body>
                 <p>test</p>
             </Card.Body> */}
-            {/* <Card.Footer>
-                <Button>Like</Button>
-            </Card.Footer> */}
             </Link>
+            <Card.Footer>
+                <Button onClick={fetchLikes}>Likes: 0{likes}</Button>
+                {/* <LikeBotton onClick={fetchLikes}>Likes: {numLikes}</LikeBotton> */}
+            </Card.Footer>
+            
         </Card>
     )
 }

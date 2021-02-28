@@ -15,11 +15,10 @@ function ArtworkPage() {
     const artworkData = useArtwork(id);
     console.log(artworkData);
     const {
-        colorPalette,
+        author,
         title,
-        image,
-        username,
-        description,
+        artwork,
+        colors
     } = artworkData;
 
     return (
@@ -29,13 +28,13 @@ function ArtworkPage() {
                     <Media>
                         <Media.Body>
                             <h5>{title}</h5>
-                            <p>by {username}</p>
+                            <p>by {author}</p>
                         </Media.Body>
                     </Media>
                     <Image
                         fluid
                         className="mx-auto"
-                        src={image}
+                        src={artwork}
                     >
                     </Image>
                 </Col>
