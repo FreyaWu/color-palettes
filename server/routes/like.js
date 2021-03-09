@@ -2,32 +2,31 @@ const likeRouter = require('express').Router();
 const { model } = require('mongoose');
 const User = require('../models/user');
 const Palette = require('../models/palette');
-
 const Like = model('Like'); 
 
 const requireLogin = require("../middlewares/requireLogin");
 
-likeRouter.post('/:paletteId', async (req, res) => {
+likeRouter.post('/:paletteId', requireLogin, async (req, res) => {
     const {paletteId} = req.params;
-    // const likes = await Like.find({});
-    // const {author, palette} = req.body;
+    console.log(paletteId);
+    console.log(req.user.id);
     
     const doesLikeExist = await Like.exists({
         palette: paletteId,
-        user: req.user._id,
+        user: req.user.id,
     });
 
     if (doesLikeExist) return res.send("um no");
     const newLike = await new Like({
-        author: req.user.id,
-        post: paletteId,
+        user: req.user.id,
+        palette: paletteId,
     }).save();
     res.send(newLike);
 });
 
 likeRouter.get("/:paletteId/count", async (req, res) => {
     const { paletteId } = req.params;
-    const numLikes = await Like.find({ post: paletteId }).countDocuments();
+    const numLikes = await Like.find({ palette: paletteId }).countDocuments();
     res.send(numLikes.toString());
 });
 

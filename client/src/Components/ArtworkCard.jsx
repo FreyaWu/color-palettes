@@ -3,9 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
-import ColorBox from './ColorBox';
 import Button from 'react-bootstrap/Button';
-import LikeButton from '../Components/LikeBotton';
+import LikeButton from './LikeButton';
+import {HeartFill} from "react-bootstrap-icons";
 
 const CardOverlay = styled(Card.ImgOverlay)`
     opacity: 0;
@@ -57,10 +57,22 @@ const ColorSpan = styled.span`
 
 
 function ArtworkCard({artwork}) {
+    const [likes, setLikes] =  useState(0);
     const colors = artwork.colors;
-    
+    console.log(artwork);
+
+    useEffect(() => {
+        fetchLikes();
+    },[artwork._id])
+
     const fetchLikes = async () => {
         const likes = await axios.get(`/like/${artwork._id}/count`);
+        setLikes(likes.data);
+    }
+    
+    const addLikes = async () => {
+        await axios.post(`/like/${artwork._id}`);
+        fetchLikes();
     };
     
     return (
@@ -96,11 +108,13 @@ function ArtworkCard({artwork}) {
                 <p>test</p>
             </Card.Body> */}
             </Link>
-            <Card.Footer>
-                <Button onClick={fetchLikes}>Likes: 0{likes}</Button>
-                {/* <LikeBotton onClick={fetchLikes}>Likes: {numLikes}</LikeBotton> */}
+            <Card.Footer className="d-flex border rounded-bottom bg-white">
+                <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>
+                <div className="d-flex ml-auto align-items-center">
+                    <HeartFill onClick={addLikes} variant="transparent" className="mr-1"/>
+                    <div className="">{likes}</div>
+                </div>
             </Card.Footer>
-            
         </Card>
     )
 }

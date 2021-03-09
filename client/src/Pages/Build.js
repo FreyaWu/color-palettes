@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';// hook, subscribe the component to store
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { selectAuth } from '../Reducers/auth';
+import tinyColor from 'tinycolor2';
+import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { HuePicker, AlphaPicker } from 'react-color';
-import styled from 'styled-components';
-import tinyColor from 'tinycolor2';
-import { useSelector } from 'react-redux';//? hook, subscribe the component to store
-import { selectAuth } from '../Reducers/auth';
-
+import Image from 'react-bootstrap/Image';
+import ColorPicker from '../Components/Color-picker/ColorPicker';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
+import axios from 'axios';
 
-const ColorContainer = styled(Container)`
-    height: 100vh;
-    background-color: ${props => props.color};
-`;
 
 const ColorDiv = styled.div`
     display: flex;
@@ -22,76 +21,169 @@ const ColorDiv = styled.div`
     height: 25rem;
     background-color: ${props => props.color};
 `
+const ColorBoxOverlay = styled.div`
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+`;
+
+const ColorBoxContainer = styled.div`
+    width: 10%;
+    height: 7rem;
+    cursor: pointer;
+`;
+
+const ColorBox = styled.div`
+    width: 95%;
+    height: 95%;
+    &:hover ${ColorBoxOverlay} {
+        opacity: 0.8;
+    }
+`;
+
+const AddColorButton = styled(Button)`
+    width: 10%;
+    font-size: 4rem;
+`;
 
 function BuildPage() {
-    const randomColor = tinyColor.random();
-    const [color, setColor] = useState(randomColor);
-    const { isLoggedIn } = useSelector(selectAuth);
+    const {user} = useSelector(selectAuth);
+    const [colors, setColors] = useState([tinyColor.random()]);
+    const [colorIndex, setColorIndex] = useState(0);
+    const [image, setImage] = useState("");
+    const history = useHistory();
 
-    const handleChangeCompleteHue = (newColor) => {
-        // const tempColors = colors.slice();
-        // tempColors[colors.length] = color.hex;
-        setColor(tinyColor({...newColor.rgb, a:color.getAlpha()}));
-    };
-    const handleChangeCompleteAlpha = (newColor) => {
-        // const tempColors = colors.slice();
-        // tempColors[colors.length] = color.hex;
-        setColor(tinyColor(newColor.rgb));
-    };
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        console.log(e.target);
-        if (name === "hex") {
-            console.log(value);
-            setColor(tinyColor(value));
-        } else if (name === "a") {
-            let alpha = parseInt(value);
-            if (isNaN(alpha) || alpha < 0 || alpha > 100) alpha = 0;
-            setColor(tinyColor({...color.toRgb(), a:alpha/100}));
-        } else {
-            let num = parseInt(value);
-            if (isNaN(num) || num < 0 || num > 255) num = 0;
-            console.log({...color.toRgb(),[name]:num});
-            setColor(tinyColor({...color.toRgb(),[name]:num}));//[] is neccessary, find value based on name
+    const currentColor = () => {
+        return colors[colorIndex];
+    }
+
+    const handleSelectColorBox = index => {
+        setColorIndex(index);
+    }
+    
+    const handleColorChange = color => {
+        setColors([
+            ...colors.slice(0, colorIndex),
+            tinyColor(color.rgb),
+            ...colors.slice(colorIndex + 1)
+        ])
+    }
+
+    const handleDeleteColor = (e, index) => {
+        e.stopPropagation();//
+        setColors(colors.filter((_, idx) => idx != index));
+        if (colorIndex > index) {
+            setColorIndex(colorIndex - 1);
         }
     }
-    return (
-        <ColorContainer fluid color={color.toRgbString()}>
-            {/* <div className="d-flex">
-                <ColorDiv color={color} colorSize={1}></ColorDiv>
-            </div> */}
-            <div className="d-flex flex-column border mt-3" style={{ backgroundColor: 'white' }}>
-                <HuePicker
-                    className="w-75 align-self-center my-2"
-                    height={'2rem'}
-                    color={color.toRgb()}
-                    onChangeComplete={handleChangeCompleteHue}
-                />
-                <AlphaPicker
-                    className="w-75 align-self-center my-2"
-                    height={'2rem'}
-                    color={color.toRgb()}
-                    onChangeComplete={handleChangeCompleteAlpha}
-                />
-            </div>
-            <div className="d-flex border">
-                <Form.Label>Hex</Form.Label>
-                <Form.Control name="hex" type="text" value={color.toHexString()} onChange={handleChange}/>
-                <Form.Label>R</Form.Label>
-                <Form.Control name="r" type="text" value={color.toRgb().r} onChange={handleChange}/>
-                <Form.Label>G</Form.Label>
-                <Form.Control name="g" type="text" value={color.toRgb().g} onChange={handleChange}/>
-                <Form.Label>B</Form.Label>
-                <Form.Control name="b" type="text" value={color.toRgb().b} onChange={handleChange}/>
-                <Form.Label>A</Form.Label>
-                <Form.Control name="a" type="text" value={color.toRgb().a * 100} onChange={handleChange}/>
-            </div>
-            {isLoggedIn &&
-                <div>
-                    <Button variant="success">Save</Button>
-                </div>
+
+    const handleAddColor = index => {
+        if (colorIndex === 9) return;
+        for (let i = 0; i < colors.length; i++) {
+            if (i === colorIndex) continue;
+            if (colors[i] === colors[colorIndex]) {
+                return;
             }
-        </ColorContainer>
+        }
+        setColors([...colors, tinyColor.random()]);
+        setColorIndex(colors.length);
+    }
+
+    const handleImageChange = e => {
+        const image = e.target.value;
+        setImage(image);
+    }
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const colorArray = colors.map(color => color.toRgbString())
+        console.log(colorArray);
+        const newPalette = await axios.post('/palettes/', {colorArray, image});
+        history.replace('/build');
+    }
+
+    const renderLoggedIn = (
+        <>
+            <Container className="my-1 p-0">
+                <div className="text-center font-weight-bold mb-1">
+                    Artwork
+                </div>
+                <Form>
+                    <Form.Group controlId="onlineImage" className="d-flex">
+                        <Form.Control placeholder="Enter an image address (Optional)" onChange={handleImageChange} />
+                    </Form.Group>
+                </Form>
+            </Container>
+            <Container className="pb-3">
+                {image !== "" && 
+                    <div className="text-center font-weight-bold pb-2">
+                        Preview
+                    </div>
+                }
+                <Image src={image} fluid/>
+            </Container>
+            <Container>
+                <Button variant="dark" type="submit" block onClick={handleSubmit}>
+                    Upload
+                </Button>
+            </Container>
+        </>
+    )
+    
+    return (
+        <>
+            <Container fluid className="bg-light px-0 pb-5">
+                < ColorDiv color={currentColor().toRgbString()} />
+                <Container>
+                    <ColorPicker 
+                        className="p-2" 
+                        color={currentColor().toRgb()}
+                        onChange={handleColorChange}
+                    />
+                </Container>
+                <Container className="border bg-white px-0">
+                    <div className="d-flex">
+                        {colors.map((color, cIdx) => (
+                            <ColorBoxContainer 
+                                className="rounded d-flex justify-content-center"
+                                key={cIdx}
+                                style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
+                                onClick={() => handleSelectColorBox(cIdx)}
+                            >
+                                <ColorBox
+                                    className="my-auto rounded"
+                                    style={{ backgroundColor: color.toRgbString() }}
+                                >
+                                    {cIdx !== colorIndex &&
+                                            <ColorBoxOverlay className="d-flex justify-content-center">
+                                                <Button
+                                                    className="my-auto"
+                                                    variant="dark"
+                                                    onClick={(e) => handleDeleteColor(e, cIdx)}//added e
+                                                >
+                                                    X
+                                                </Button>
+                                            </ColorBoxOverlay>
+                                        }
+                                </ColorBox>
+                            </ColorBoxContainer>
+                        ))}
+                        {colors.length < 10 &&
+                                <AddColorButton
+                                    className="border text-center border-0 rounded p-0"
+                                    variant="light"
+                                    onClick={handleAddColor}
+                                >
+                                    +
+                            </AddColorButton>
+                            }
+                    </div>
+                </Container>
+                {user && renderLoggedIn}
+            </Container>
+        </>
     );
 }
 

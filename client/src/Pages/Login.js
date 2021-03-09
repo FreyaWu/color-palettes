@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import {login} from '../Actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 
 const PageContainer = styled.div`
@@ -25,6 +25,7 @@ const FormContainer = styled(Form)`
 
 function LoginPage(props) {
     const [input, setInput] = useState({});
+    const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -34,8 +35,12 @@ function LoginPage(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-            dispatch(login(input));//dispatch action
-            history.push("/gallery");
+        dispatch(login(input));//dispatch action
+        if (location.state && location.state.from) {
+            history.push(location.state.from);
+        } else {
+            history.push('/palettes');
+        }
     }
 
     return (
@@ -56,7 +61,7 @@ function LoginPage(props) {
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
                 <Button variant="dark" type="submit" block>
-                    Submit
+                    Sign in
                 </Button>
             </FormContainer>
         </PageContainer>

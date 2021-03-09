@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import PaletteCard from '../Components/PaletteCard';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
@@ -14,20 +15,10 @@ const PalettesContainer = styled.div`
     grid-gap: 20px;
 `;
 
-const ColorSpan = styled.div`
-    display: inline-block;
-    flex: 1;
-    width: calc(100% / ${props => props.colorSize});
-    height: 4em;
-    background-color: ${props => props.color};
-    border-top-left-radius: ${props => props.index === 0 && '0.2rem'};
-    border-top-right-radius: ${props => props.index === props.colorSize - 1 && '0.2rem'};
-`;
-
-
 function PaletteGalleryPage() {
     const [palettes, setPalettes] = useState([]);
-    console.log('palette gallery');
+    // console.log('palette gallery');
+
     useEffect(() => {
         let mounted = true;
         const fetchPalettes = async () => {
@@ -41,27 +32,8 @@ function PaletteGalleryPage() {
     return (
         <Container fluid className="mt-4">
             <PalettesContainer className="px-4 card-deck">
-                <Button variant="light" type="submit" class="text-center">
-                    Upload your palette
-                </Button>
                 {palettes.map(palette => (
-                    <Card key={palette._id} className="border-0">
-                        <Link
-                            key={palette._id}
-                            to={{
-                                pathname: `/palettes/${palette._id}`
-                            }}
-                        >
-                            <div className="d-flex rounded-top">
-                                {palette.colors.map((color, index) => (
-                                    <ColorSpan key={index} colorSize={palette.size} color={color} index={index} />
-                                ))}
-                            </div>
-                        </Link>
-                        <Card.Footer className="border rounded-bottom bg-white">
-                            <h6>test</h6>
-                        </Card.Footer>
-                    </Card>
+                    <PaletteCard key={palette._id} palette={palette} />
                 ))}
             </PalettesContainer>
         </Container>

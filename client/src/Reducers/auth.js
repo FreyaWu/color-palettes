@@ -10,6 +10,7 @@ import {
 
 const initialState = {
     isLoggedIn: false,
+    user: {},
 }
 
 const auth = (state = initialState, action) => {
@@ -18,11 +19,11 @@ const auth = (state = initialState, action) => {
     switch (type) {
         case REGISTER_FAIL:
         case LOGIN_FAIL:
-        case LOGOUT:
         case FETCH_USER_FAIL:
             return {
                 ...state,
                 isLoggedIn: false,
+                user: null
             };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
@@ -30,6 +31,13 @@ const auth = (state = initialState, action) => {
             return {
                 ...state,
                 isLoggedIn: true,
+                user: payload,
+            }
+        case LOGOUT:
+            return {
+                ...state,
+                isLoggedIn: false,
+                user: null,
             }
         default:
             return state;

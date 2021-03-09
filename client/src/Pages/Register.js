@@ -26,7 +26,7 @@ function RegisterPage() {
     const [input, setInput] = useState({});
     const history = useHistory();
     const dispatch = useDispatch();
-    const {isLoggedIn} = useSelector(selectAuth);
+    const {user} = useSelector(selectAuth);
 
     const handleChange = (e) => {
         setInput({...input,[e.target.name]:e.target.value});
@@ -40,7 +40,6 @@ function RegisterPage() {
 
     return (
         <PageContainer fluid>
-            {/* { isLoggedIn && <Redirect to="/palettes"/> } */}
             <FormContainer onSubmit={handleSubmit}>
                 <Form.Group controlId="username">
                     <Form.Label>Username</Form.Label>

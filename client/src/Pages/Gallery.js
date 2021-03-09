@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../Reducers/auth'; 
 
 import Container from 'react-bootstrap/Container';
 import Cover from '../Components/Cover';
@@ -18,8 +19,9 @@ const ArtworksContainer = styled.div`
     padding-bottom: 20px;
 `;
 
-function GalleryPage(props) {
+function GalleryPage() {
     const [artworks, setArtworks] = useState([]);
+    const {user} = useSelector(selectAuth);
 
     useEffect(() => {
         let mounted = true;
@@ -30,8 +32,6 @@ function GalleryPage(props) {
         fetchArtworks();
         return () => (mounted = false);
     }, []);
-
-    console.log(props.isLoggedIn);
 
     return (
         <>
@@ -49,8 +49,5 @@ function GalleryPage(props) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {isLoggedIn: state.auth.isLoggedIn}
-}
-export default withHeaderFooter(connect(mapStateToProps, null)(GalleryPage));
+export default withHeaderFooter(GalleryPage);
 

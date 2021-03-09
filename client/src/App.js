@@ -12,6 +12,7 @@ import BuildPage from './Pages/Build';
 import GalleryPage from './Pages/Gallery';
 import PalettePage from './Pages/PaletteGallery';
 import ArtworkPage from './Pages/Artwork';
+import UserPage from './Pages/UserPage';
 
 import styled from 'styled-components';
 
@@ -36,10 +37,12 @@ function App() {
           <Route exact path='/' component={HomePage}/>
           <Route exact path='/register' component={RegisterPage}/>
           <Route exact path='/login' component={LoginPage}/>
+          <Route exact path='/logout'/>
           <Route exact path='/build' component={BuildPage}/>
           <Route exact path='/gallery' component={GalleryPage}/>
           <Route exact path='/palettes' component={PalettePage}/>
           <Route exact path='/artworks/:id' component={ArtworkPage}/>
+          <Route exact path='/current-user' component={UserPage}/>
         </Switch>
       </BrowserRouter>
     </MainContainer>
