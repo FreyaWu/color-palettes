@@ -7,7 +7,7 @@ const PaletteSchema = new Schema({
     },
     title: String,
     size: Number,
-    artwork: String,
+    image: String,
     colors: [String]
 });
 

@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import PaletteCard from '../Components/PaletteCard';
+import PaletteService from '../Services/palette';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
@@ -22,18 +23,17 @@ function PaletteGalleryPage() {
     useEffect(() => {
         let mounted = true;
         const fetchPalettes = async () => {
-            const { data: palettes } = await axios.get('/palettes');
+            const { data: palettes } = await PaletteService.getAllPalettes();
             if (mounted) setPalettes(palettes);
         };
         fetchPalettes();
         return () => (mounted = false);
     }, []);
-
     return (
         <Container fluid className="mt-4">
             <PalettesContainer className="px-4 card-deck">
                 {palettes.map(palette => (
-                    <PaletteCard key={palette._id} palette={palette} />
+                    <PaletteCard key={palette._id} {...palette} />
                 ))}
             </PalettesContainer>
         </Container>

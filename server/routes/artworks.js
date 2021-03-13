@@ -4,13 +4,13 @@ const { model } = require('mongoose');
 const Palette = model('Palette'); //same with const Artwork = require('./models/artwork');
 
 artworksRouter.get('/', async (req, res) => {
-    const artworks = await Palette.find({}).select("artwork colors author").populate('author');//find all palettes' artwork
+    const artworks = await Palette.find({}).populate('author');//find all palettes' artwork
     res.send(artworks);
 });
 
-artworksRouter.get('/:id', async (req, res) => {
-    const { id } = req.params;
-    const artwork = await Palette.findById(id).populate('author'); //this won't populate author
+artworksRouter.get('/:paletteId', async (req, res) => {
+    const { paletteId } = req.params;
+    const artwork = await Palette.findById(paletteId).populate('author'); //this won't populate author
     res.send(artwork);
 
 });

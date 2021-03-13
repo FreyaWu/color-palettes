@@ -37,6 +37,7 @@ function LoginPage(props) {
         e.preventDefault();
         dispatch(login(input));//dispatch action
         if (location.state && location.state.from) {
+            console.log(location.state.from);
             history.push(location.state.from);
         } else {
             history.push('/palettes');

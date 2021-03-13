@@ -37,7 +37,6 @@ const SearchContainer = styled(FormControl)`
 `;
 
 function Header() {
-    const {isLoggedIn} = useSelector(selectAuth);
     const {user} = useSelector(selectAuth);
     const dispatch = useDispatch();
     const location = useLocation();
@@ -59,11 +58,11 @@ function Header() {
         <Form inline>
             <Button variant="light" href="/register">Register</Button>
             <Link to={{
-                    pathname: "/login",
-                    state: { from: location.pathname }
-                }}>
-                    <Button variant="light" >Login</Button>
-                </Link>
+                pathname: "/login",
+                state: { from: location.pathname }
+            }}>
+                <Button variant="light" >Login</Button>
+            </Link>
         </Form>
     )
     return (
@@ -76,7 +75,7 @@ function Header() {
                     <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
                     <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
-                    {isLoggedIn && <NavlinkContainer href="/current-user">My page</NavlinkContainer>}
+                    { user && <NavlinkContainer href="/current-user">My page</NavlinkContainer>}
                     {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -85,7 +84,7 @@ function Header() {
                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                     </NavDropdown> */}
                 </Nav>
-                {isLoggedIn ? renderLoggedIn : renderLoggedOut}
+                { user ? renderLoggedIn : renderLoggedOut }
             </Navbar.Collapse>
         </NavbarContainer>
     );

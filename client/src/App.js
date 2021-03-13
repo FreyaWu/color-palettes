@@ -11,8 +11,9 @@ import LoginPage from './Pages/Login';
 import BuildPage from './Pages/Build';
 import GalleryPage from './Pages/Gallery';
 import PalettePage from './Pages/PaletteGallery';
-import ArtworkPage from './Pages/Artwork';
+import ShowPage from './Pages/Show';
 import UserPage from './Pages/UserPage';
+import EditPage from './Pages/Edit';
 
 import styled from 'styled-components';
 
@@ -41,8 +42,9 @@ function App() {
           <Route exact path='/build' component={BuildPage}/>
           <Route exact path='/gallery' component={GalleryPage}/>
           <Route exact path='/palettes' component={PalettePage}/>
-          <Route exact path='/artworks/:id' component={ArtworkPage}/>
+          <Route exact path='/palettes/:paletteId' component={ShowPage}/>
           <Route exact path='/current-user' component={UserPage}/>
+          <Route exact path='/palettes/:paletteId/edit' component={EditPage}/>
         </Switch>
       </BrowserRouter>
     </MainContainer>

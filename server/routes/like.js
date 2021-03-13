@@ -8,20 +8,36 @@ const requireLogin = require("../middlewares/requireLogin");
 
 likeRouter.post('/:paletteId', requireLogin, async (req, res) => {
     const {paletteId} = req.params;
-    console.log(paletteId);
-    console.log(req.user.id);
     
     const doesLikeExist = await Like.exists({
         palette: paletteId,
         user: req.user.id,
     });
 
-    if (doesLikeExist) return res.send("um no");
+    if (doesLikeExist) return res.send("You've already liked this palette");
     const newLike = await new Like({
         user: req.user.id,
         palette: paletteId,
     }).save();
     res.send(newLike);
+});
+
+likeRouter.get('/:paletteId', requireLogin, async (req, res) => {
+    const {paletteId} = req.params;
+    const doesLikeExist = await Like.exists({
+        palette: paletteId,
+        user: req.user.id,
+    });
+    res.send(doesLikeExist);
+});
+
+likeRouter.delete('/:paletteId', requireLogin, async (req, res) => {
+    const {paletteId} = req.params;
+    await Like.findOneAndDelete({
+        palette: paletteId,
+        user: req.user.id,
+    });
+    res.json({});
 });
 
 likeRouter.get("/:paletteId/count", async (req, res) => {

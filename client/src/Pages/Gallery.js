@@ -8,11 +8,11 @@ import { selectAuth } from '../Reducers/auth';
 import Container from 'react-bootstrap/Container';
 import Cover from '../Components/Cover';
 import ArtworkCard from '../Components/ArtworkCard';
+import ArtworkService from '../Services/artwork';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const ArtworksContainer = styled.div`
-    background-color: #D7F29B;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     grid-gap: 20px;
@@ -26,7 +26,7 @@ function GalleryPage() {
     useEffect(() => {
         let mounted = true;
         const fetchArtworks = async () => {
-            const { data: artworks } = await axios.get('/artworks');
+            const { data: artworks } = await ArtworkService.getAllArtworks();
             if (mounted) setArtworks(artworks);
         };
         fetchArtworks();
@@ -40,7 +40,7 @@ function GalleryPage() {
                 <ArtworksContainer className="pt-4 px-4 card-deck">
                     {
                         artworks.map((artwork) => (
-                            <ArtworkCard key={artwork._id} artwork={artwork} />//
+                            artwork.image && <ArtworkCard key={artwork._id} artwork={artwork} />
                         ))
                     }
                 </ArtworksContainer>

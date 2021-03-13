@@ -20,13 +20,12 @@ require('mongoose').connect('mongodb://localhost:27017/color-palette', { useNewU
     .catch(err => {
         console.log("OH NO MONGO CONNECTION ERROR!!!!")
         console.log(err)
-    });
+    });   
 
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
-app.use(methodOverride('_method'));
 app.use(bodyParser.json());
-
+app.use(methodOverride('_method'));
 
 
 const sessionConfig = {
@@ -49,16 +48,17 @@ passport.serializeUser(User.serializeUser());//store user, method also automatic
 passport.deserializeUser(User.deserializeUser());//unstore user
 
 
-
 const artworksRouter = require('./routes/artworks');
 const palettesRouter = require('./routes/palettes');
 const authRouter = require('./routes/auth');
 const likeRouter = require('./routes/like');
+const userRouter = require('./routes/user');
 
 app.use('/artworks', artworksRouter);
 app.use('/palettes', palettesRouter);
 app.use('/auth', authRouter);
 app.use('/like', likeRouter);
+app.use('/user', userRouter);
 
 
 app.get('/', (req, res) => {

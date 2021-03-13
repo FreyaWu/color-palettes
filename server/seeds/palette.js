@@ -37,7 +37,7 @@ const seedDB = async () => {
             author: '6034a5989fe3e86efe4688fd',
             title: "color",
             size: size,
-            artwork:'https://source.unsplash.com/collection/9248817',
+            image:'https://source.unsplash.com/collection/9248817',
             colors: sampleColor(size)
         })
         await palette.save();

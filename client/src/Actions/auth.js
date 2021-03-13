@@ -27,14 +27,12 @@ export const register = ({username, email, password}) => async (dispatch) => {
 
 export const login = ({username, password}) => async (dispatch) => {
     try {
-        console.log({username, password});
         const { data: user } = await AuthService.login(username, password);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: user
         });
     } catch (error) {
-        throw Error(error);
         dispatch({
             type: LOGIN_FAIL,
         });

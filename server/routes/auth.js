@@ -23,20 +23,6 @@ authRouter.get('/current-user', (req, res) => {
     res.send(req.user);
 });
 
-authRouter.get('/user/:id', async (req, res) => {
-    const userId = req.params.id;
-    const likes = await Like.find({ user : userId });
-    // res.send(likes);
-    let palettes = [];
-    for (let like of likes) {
-        console.log(like);
-        const palette = await Palette.findById(like.palette)
-        palettes.push(palette);
-    }
-        // console.log(await Palette.findById(like.palette))
-    res.send(palettes);
-});
-
 authRouter.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/");

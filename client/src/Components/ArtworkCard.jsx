@@ -7,6 +7,9 @@ import Button from 'react-bootstrap/Button';
 import LikeButton from './LikeButton';
 import {HeartFill} from "react-bootstrap-icons";
 
+import ArtworkService from '../Services/artwork';
+import LikeService from '../Services/like';
+
 const CardOverlay = styled(Card.ImgOverlay)`
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -61,17 +64,17 @@ function ArtworkCard({artwork}) {
     const colors = artwork.colors;
     console.log(artwork);
 
+    const fetchLikes = async() => {
+        const {data: likes} = await LikeService.getLikes(artwork._id);
+        setLikes(likes);
+    }
+
     useEffect(() => {
         fetchLikes();
-    },[artwork._id])
+    }, [artwork._id])
 
-    const fetchLikes = async () => {
-        const likes = await axios.get(`/like/${artwork._id}/count`);
-        setLikes(likes.data);
-    }
-    
-    const addLikes = async () => {
-        await axios.post(`/like/${artwork._id}`);
+    const addLike = async () => {
+        await LikeService.postLike(artwork._id);
         fetchLikes();
     };
     
@@ -80,14 +83,14 @@ function ArtworkCard({artwork}) {
             <Link
                 key={artwork._id}
                 to={{
-                    pathname: `/artworks/${artwork._id}`
+                    pathname: `/palettes/${artwork._id}`
                 }}
             >
                 <CardImageContainer className="position-relative">
                     <CardImage
                         className="img-fluid"
                         variant="top"
-                        src={artwork.artwork}
+                        src={artwork.image}
                     />
                     <CardOverlay>
                         <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
@@ -111,7 +114,7 @@ function ArtworkCard({artwork}) {
             <Card.Footer className="d-flex border rounded-bottom bg-white">
                 <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>
                 <div className="d-flex ml-auto align-items-center">
-                    <HeartFill onClick={addLikes} variant="transparent" className="mr-1"/>
+                    <HeartFill onClick={addLike} variant="transparent" className="mr-1"/>
                     <div className="">{likes}</div>
                 </div>
             </Card.Footer>

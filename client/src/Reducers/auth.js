@@ -9,7 +9,6 @@ import {
 } from '../Actions/types';
 
 const initialState = {
-    isLoggedIn: false,
     user: {},
 }
 
@@ -22,22 +21,19 @@ const auth = (state = initialState, action) => {
         case FETCH_USER_FAIL:
             return {
                 ...state,
-                isLoggedIn: false,
-                user: null
+                user: ""
             };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case FETCH_USER_SUCCESS:
             return {
                 ...state,
-                isLoggedIn: true,
                 user: payload,
             }
         case LOGOUT:
             return {
                 ...state,
-                isLoggedIn: false,
-                user: null,
+                user: ""
             }
         default:
             return state;

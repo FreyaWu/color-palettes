@@ -1,8 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import {connect} from 'react-redux';
-
 
 import {Link, useLocation, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -17,8 +15,7 @@ import tinyColor from 'tinycolor2';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 
-import useArtwork from '../Hooks/useArtwork';
-
+import UserService from '../Services/user';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const PalettesContainer = styled.div`
@@ -43,12 +40,13 @@ const ColorSpan = styled.div`
 function UserPage() {
     const {user} = useSelector(selectAuth);
     // console.log(user);
+    const [userPalettes, setUserPalettes] = useState([]);
     const [likedPalettes, setLikedPalettes] = useState([]);
 
     useEffect(() => {
         const fetchLikes = async () => {
             // console.log(user);
-            const { data: likedPalettes } = await axios.get(`/auth/user/${user._id}`);
+            const { data: likedPalettes } = await axios.get(`/user/${user._id}`);
             setLikedPalettes(likedPalettes);
         };
         if (user) fetchLikes();
@@ -72,7 +70,7 @@ function UserPage() {
                                     <Link
                                         key={likedPalette._id}
                                         to={{
-                                            pathname: `/artworks/${likedPalette._id}`
+                                            pathname: `/palettes/${likedPalette._id}`
                                         }}
                                     >
                                         <div className="d-flex rounded-top">
