@@ -51,18 +51,16 @@ const AddColorButton = styled(Button)`
 
 function BuildPage() {
     const {user} = useSelector(selectAuth);
-    const paletteId = useParams();
+    const {paletteId} = useParams();
     const [palette, setPalette] = useState([]);
     const [colors, setColors] = useState([tinyColor.random()]);
     const [colorIndex, setColorIndex] = useState(0);
     const [image, setImage] = useState("");
     const history = useHistory();
 
-    
-
     useEffect (() => {
         const fetchPalette = async() => {
-            const {data: palette} = await PaletteService.editPalette(paletteId);
+            const {data: palette} = await PaletteService.getPalette(paletteId);
             setPalette(palette);
             setColors(palette.colors.map(color => tinyColor(color)));
             setImage(palette.image);
@@ -111,12 +109,15 @@ function BuildPage() {
         setImage(image);
     }
 
-    const handleSubmit = async e => {
+    const handleUpdate = async e => {
         e.preventDefault();
-        const colorArray = colors.map(color => color.toRgbString())
-        console.log(colorArray);
-        const newPalette = await axios.post('/palettes/', {colorArray, image});
-        history.replace('/build');
+        const newColors = colors.map(color => color.toRgbString())
+        const newSize = newColors.length;
+        // console.log(newColors);
+        const {data: palette} = await PaletteService.editPalette(paletteId, newColors, image, newSize);
+        // console.log(palette);
+        setPalette(palette);
+        history.replace('/palettes');
     }
 
     const renderLoggedIn = (
@@ -140,8 +141,8 @@ function BuildPage() {
                 <Image src={image} fluid/>
             </Container>
             <Container>
-                <Button variant="dark" type="submit" block onClick={handleSubmit}>
-                    Upload
+                <Button variant="dark" type="submit" block onClick={handleUpdate}>
+                    Update
                 </Button>
             </Container>
         </>

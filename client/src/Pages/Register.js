@@ -7,67 +7,107 @@ import {register} from '../Actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 import { useHistory, Redirect } from "react-router-dom";
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import withHeaderFooter from '../Hocs/withHeaderFooter';
 
-const PageContainer = styled.div`
-    display: flex;
-    height: 100vh;
-    background-color: white;
-`;
 const FormContainer = styled(Form)`
-    width:50%;
-    height:50%;
-    margin:0 auto;
     background:#f7f7f7;
-    margin-top: 10%;
-    padding: 3%
 `;
 
 function RegisterPage() {
-    const [input, setInput] = useState({});
+    const {user} = useSelector(selectAuth);
     const history = useHistory();
     const dispatch = useDispatch();
-    const {user} = useSelector(selectAuth);
+    
+    const schema = Yup.object().shape({
+        username: Yup.string()
+            .required()
+            .min(2)
+            .max(25),
+        email: Yup.string()
+            .required()
+            .email(),
+        password: Yup.string()
+            .required()
+            .min(4)
+            .max(20),
+    })
 
-    const handleChange = (e) => {
-        setInput({...input,[e.target.name]:e.target.value});
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = (input) => {
         dispatch(register(input));
-        history.push('/palettes');
     }
+
+    useEffect(() => {
+        if (user.username) {
+            console.log(user.username);
+            history.replace('/palettes');
+        }
+    },[user])
 
     return (
-        <PageContainer fluid>
-            <FormContainer onSubmit={handleSubmit}>
-                <Form.Group controlId="username">
-                    <Form.Label>Username</Form.Label>
-                    <Form.Control required name="username" type="string" placeholder="Enter username" onChange={handleChange}/>
-                    <Form.Text className="text-muted">
-                    </Form.Text>
-                </Form.Group>
-                
-                <Form.Group controlId="email">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control required name="email" type="email" placeholder="Enter email" onChange={handleChange}/>
-                    <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+        <Container fluid>
+            <div className="text-center mt-5">
+                <h2>Sign up to Color Palette</h2>
+            </div>
+            <Formik
+                validationSchema = {schema}
+                onSubmit = {(values) => { handleSubmit(values) }}
+                initialValues = {{
+                    username: '',
+                    email: '',
+                    password: '',
+                }}
+            >
+                { ({handleSubmit, handleChange, values, errors}) => (
+                    <FormContainer className="w-50 mx-auto p-5" noValidate onSubmit={handleSubmit} >
+                        <div className="w-100">
+                            <Form.Group controlId="username">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control 
+                                    name="username" 
+                                    type="string" 
+                                    value={values.username} 
+                                    onChange={handleChange} 
+                                    isInvalid={!!errors.username}/>
+                                <Form.Control.Feedback>
+                                    {errors.username}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            
+                            <Form.Group controlId="email">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control 
+                                    name="email" 
+                                    type="email" 
+                                    value={values.email}
+                                    onChange={handleChange} 
+                                    isInvalid={!!errors.email}/>
+                                <Form.Control.Feedback>
+                                    {errors.email}
+                                </Form.Control.Feedback>
+                            </Form.Group>
 
-                <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control required name="password" type="password" placeholder="Password" onChange={handleChange}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
-                </Form.Group>
-                <Button variant="dark" type="submit" block>
-                    Submit
-                </Button>
-            </FormContainer>
-        </PageContainer>
+                            <Form.Group controlId="password">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control 
+                                    name="password" 
+                                    type="password" 
+                                    value={values.password}
+                                    onChange={handleChange} 
+                                    isInvalid={!!errors.password}/>
+                                <Form.Control.Feedback>
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Button variant="dark" type="submit" block>
+                                Register
+                            </Button>
+                        </div>
+                    </FormContainer>
+                ) }
+            </Formik>
+        </Container>
     );
 }
 

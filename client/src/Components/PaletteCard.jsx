@@ -35,7 +35,7 @@ function PaletteCard({_id, colors, size, author}) {
     }
 
     const fetchIsLiked = async() => {
-        if (!user.username) {
+        if (!user) {
             setIsLiked(false);
             return;
         }

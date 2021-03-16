@@ -2,6 +2,7 @@ import React from 'react';
 import { EditableInput } from 'react-color/lib/components/common'
 // import colorUtil from '../../utils/color';
 import styled, { isStyledComponent } from 'styled-components';
+import colorUtil from '../../utils/color';
 
 const SingleWeightInput = styled.div`
     flex: 1;
@@ -37,6 +38,38 @@ function ColorPickerFields({
         },
     }
 
+    const handleChange = (data, e) => {
+        if (data.hex) {
+            colorUtil.isValidHex(data.hex) && onChange({
+                hex: data.hex,
+                source: 'hex',
+            }, e)
+        } else if (data.r || data.g || data.b) {
+            onChange({
+                r: data.r || rgb.r,
+                g: data.g || rgb.g,
+                b: data.b || rgb.b,
+                a: rgb.a,
+                source: 'rgb',
+            }, e)
+        } else if (data.a) {
+            if (data.a < 0) {
+                data.a = 0
+            } else if (data.a > 100) {
+                data.a = 100
+            }
+
+            data.a /= 100
+            onChange({
+                h: hsl.h,
+                s: hsl.s,
+                l: hsl.l,
+                a: data.a,
+                source: 'rgb',
+            }, e)
+        }
+    }
+
     return (
         <div className="d-flex">
             <DoubleWeightInput>
@@ -44,7 +77,7 @@ function ColorPickerFields({
                     style={{ input: styles.input, label: styles.label }}
                     label="hex"
                     value={hex}
-                    onChange={onChange}
+                    onChange={handleChange}
                 />
             </DoubleWeightInput>
             <SingleWeightInput>
@@ -52,7 +85,7 @@ function ColorPickerFields({
                     style={{ input: styles.input, label: styles.label }}
                     label="r"
                     value={rgb.r}
-                    onChange={onChange}
+                    onChange={handleChange}
                     dragLabel="true"
                     dragMax="255"
                 />
@@ -62,7 +95,7 @@ function ColorPickerFields({
                     style={{ input: styles.input, label: styles.label }}
                     label="g"
                     value={rgb.g}
-                    onChange={onChange}
+                    onChange={handleChange}
                     dragLabel="true"
                     dragMax="255"
                 />
@@ -72,7 +105,7 @@ function ColorPickerFields({
                     style={{ input: styles.input, label: styles.label }}
                     label="b"
                     value={rgb.b}
-                    onChange={onChange}
+                    onChange={handleChange}
                     dragLabel="true"
                     dragMax="255"
                 />
@@ -82,7 +115,7 @@ function ColorPickerFields({
                     style={{ input: styles.input, label: styles.label }}
                     label="a"
                     value={Math.round(rgb.a*100)}
-                    onChange={onChange}
+                    onChange={handleChange}
                     dragLabel="true"
                     dragMax="100"
                 />

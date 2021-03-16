@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {selectAuth} from '../Reducers/auth';
 import Container from 'react-bootstrap/Container';
@@ -30,6 +30,7 @@ function ShowPage() {
     const { user } = useSelector(selectAuth);
     const [palette, setPalette] = useState({});
     const [isLiked, setIsLiked] = useState(false);
+    const history = useHistory();
 
     const fetchIsLiked = async() => {
         if(!user.username) {
@@ -60,6 +61,8 @@ function ShowPage() {
     const handleClickDelete = async() => {
         try {
             await PaletteService.deletePalette(paletteId);
+            setIsLiked(isLiked);
+            history.replace('/palettes');
         } catch (e) {
             // throw Error(e);
         }
@@ -116,7 +119,7 @@ function ShowPage() {
                             <HeartFill /> {isLiked? "Liked" : "Like"}
                         </Button>}
                     </div>
-                    {user && user.username && palette.author.username === user.username &&
+                    {user.username && palette.author && palette.author.username === user.username &&
                         <>
                             <Button variant="dark" href={`/palettes/${paletteId}/edit`} className="ml-3">
                                 <TrashFill /> Edit
@@ -129,9 +132,9 @@ function ShowPage() {
                 </Container>
                 
             </Container>
-            <Container className="d-flex flex-wrap p-0 justify-content-center mb-4">
+            <Container className="d-flex flex-wrap p-0 mb-4">
                 {palette.colors && palette.colors.map(color => 
-                <ColorCard key={color} color={color} colorSize={palette.size}/> 
+                    <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5 }/> 
                 )}
             </Container>
         </Container>

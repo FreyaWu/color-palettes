@@ -1,8 +1,8 @@
 const palettesRouter = require('express').Router();
 const { model } = require('mongoose');
-const { default: palette } = require('../../client/src/Services/palette');
 
 const Palette = model('Palette'); //same with const Artwork = require('./models/artwork');
+const Like = model('Like');
 
 palettesRouter.get('/', async (req, res) => {
     const palettes = await Palette.find({}).populate('author');
@@ -17,29 +17,29 @@ palettesRouter.get('/:paletteId', async (req, res) => {
 
 palettesRouter.post('/', async (req, res) => {
     const user = req.user.id;
-    const {colorArray, image} = req.body;
+    const {colors, image} = req.body;
     const palette = new Palette({
         author: user, 
-        size: colorArray.length, 
+        size: colors.length, 
         image: image,
-        colors: colorArray
+        colors: colors
     })
     await palette.save();
     res.send(palette);
 });
 
-palettesRouter.patch('/:paletteId', async (req, res) => {
+palettesRouter.patch('/:paletteId/edit', async (req, res) => {
     const { paletteId } = req.params;
-    const palette = await Palette.findById(paletteId);
+    const palette = await Palette.updateOne({ _id: paletteId }, { $set: {...req.body} });
+    console.log(palette);
     res.send(palette);
-    // await Palette.findByIdAndUpdate(paletteId, { $set: {...req.body} });
-    // res.json({});
+    res.json({});
 });
 
 palettesRouter.delete('/:paletteId', async (req, res) => {
     const { paletteId } = req.params;
-    const palette = await Palette.findById(paletteId);
-    await palette.remove();
+    await Palette.findByIdAndDelete(paletteId);
+    await Like.find({palette: paletteId}).remove();
     res.json({});//?
 })
 

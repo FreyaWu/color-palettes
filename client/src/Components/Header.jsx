@@ -25,16 +25,11 @@ const NavbarBrand = styled(Navbar.Brand)`
 `;
 
 const NavlinkContainer = styled(Nav.Link)`
-    border-bottom: ${BORDER_RADIUS}px solid black;
     padding-left: 2px;
     padding-right: 2px;
     font-size: 15px !important; 
 `;
 
-const SearchContainer = styled(FormControl)`
-    border: ${BORDER_RADIUS}px solid #E2d1ff; 
-    backgroundcolor: #Ccaff7;
-`;
 
 function Header() {
     const {user} = useSelector(selectAuth);
@@ -48,8 +43,6 @@ function Header() {
 
     const renderLoggedIn = (
         <Form inline>
-            <SearchContainer type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="light">Search</Button>
             <Button variant="light" onClick={handleLogout}>Log out</Button>
         </Form>
     )
@@ -67,11 +60,10 @@ function Header() {
     )
     return (
         <NavbarContainer bg="light" expand="lg" sticky="top">
-            <NavbarBrand href="#home">Color-Palettes</NavbarBrand>
+            <NavbarBrand href="/">Color-Palettes</NavbarBrand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" >
                 <Nav className="mr-auto justify-content-center">
-                    <NavlinkContainer href="/">Home</NavlinkContainer>
                     <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
                     <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>

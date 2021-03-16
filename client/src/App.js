@@ -12,7 +12,7 @@ import BuildPage from './Pages/Build';
 import GalleryPage from './Pages/Gallery';
 import PalettePage from './Pages/PaletteGallery';
 import ShowPage from './Pages/Show';
-import UserPage from './Pages/UserPage';
+import ProfilePage from './Pages/Profile';
 import EditPage from './Pages/Edit';
 
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ function App() {
           <Route exact path='/gallery' component={GalleryPage}/>
           <Route exact path='/palettes' component={PalettePage}/>
           <Route exact path='/palettes/:paletteId' component={ShowPage}/>
-          <Route exact path='/current-user' component={UserPage}/>
+          <Route exact path='/current-user' component={ProfilePage}/>
           <Route exact path='/palettes/:paletteId/edit' component={EditPage}/>
         </Switch>
       </BrowserRouter>

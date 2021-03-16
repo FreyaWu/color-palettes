@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
+import PaletteService from '../Services/palette';
 import axios from 'axios';
 
 
@@ -100,8 +101,14 @@ function BuildPage() {
         e.preventDefault();
         const colorArray = colors.map(color => color.toRgbString())
         console.log(colorArray);
-        const newPalette = await axios.post('/palettes/', {colorArray, image});
-        history.replace('/build');
+        await PaletteService.savePalette(colorArray, image);
+        history.replace('/palettes');
+
+        // e.preventDefault();
+        // const colorArray = colors.map(color => color.toRgbString())
+        // console.log(colorArray);
+        // const newPalette = await axios.post('/palettes/', {colorArray, image});
+        // history.replace('/palettes');
     }
 
     const renderLoggedIn = (

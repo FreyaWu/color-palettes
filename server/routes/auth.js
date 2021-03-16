@@ -9,10 +9,15 @@ const Palette = model('Palette');
 authRouter.post('/register', async (req, res) => {
     console.log(req.body);
     const {email, username, password} = req.body;
+    const user = await new User({email, username});
+    try {
+        const registeredUser = await User.register(user, password);
+        console.log(registeredUser);
+        res.send(registeredUser);
+    } catch (e) {
+        res.status(404).send(error);
+    }
     
-    const user = await User({ email, username});
-    const registeredUser = await User.register(user, password);
-    res.send(registeredUser);
 })
 
 authRouter.post('/login', passport.authenticate('local'), async (req, res) => {

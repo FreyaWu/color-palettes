@@ -12,9 +12,10 @@ const ColorBox = styled.div`
 
 function ColorCard(props) {
     const color = tinyColor(props.color);
+    const {addGrowShrink} = props;
 
     return (
-        <div style={{flex: "1 1 10%"}}>
+        <div style={{flex: addGrowShrink ? "1 1 20%" : "0 0 20%"}}>
             <div className="d-flex justify-content-center">
                 <ColorBox className="rounded-circle m-4" color={color}/>
             </div>

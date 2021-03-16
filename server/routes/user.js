@@ -7,17 +7,20 @@ const Like = model('Like');
 
 userRouter.get('/palettes', requireLogin, async (req, res) => {
     const authorId = req.user.id;
-    const palettes = Palette.find({author: authorId}).populate('author');
+    // console.log(authorId);
+    const palettes = await Palette.find({author: authorId}).populate('author');
+    // console.log(palettes);
+    res.send(palettes);
 })
 
 userRouter.get('/liked', requireLogin, async (req, res) => {
     const authorId = req.user.id;
-    const likes = Like.find({author: authorId});
+    const likes = await Like.find({user : authorId});
     const palettes = [];
     for (let like of likes) {
-        const palette = await Palette.findById(like.Palette);
+        const palette = await Palette.findById(like.palette).populate('author');
+        palettes.push(palette);
     }
-    palettes.push(palette);
     res.send(palettes);
 })
 

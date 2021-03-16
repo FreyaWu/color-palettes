@@ -17,8 +17,12 @@ const savePalette = (colors, image) => {
     });
 }
 
-const editPalette = (paletteId, colors, image) => {
-    return axios.patch(API_URL + paletteId);
+const editPalette = (paletteId, colors, image, size) => {
+    return axios.patch(API_URL + paletteId + '/edit', {
+        colors: colors,
+        image: image,
+        size: size
+    });
 }
 
 const deletePalette = (paletteId) => {

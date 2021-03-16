@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.6.3",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "formik": "^2.2.6",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-animated-heart": "0.0.5",
@@ -22,7 +23,8 @@
     "redux": "^4.0.5",
     "styled-components": "^5.2.1",
     "tinycolor2": "^1.4.2",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",
