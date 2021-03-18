@@ -7,6 +7,8 @@ import {register} from '../Actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 import { useHistory, Redirect } from "react-router-dom";
+import { setMessage } from '../Actions/message';
+import MessageAlert from '../Components/MessageAlert';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
@@ -40,6 +42,7 @@ function RegisterPage() {
 
     useEffect(() => {
         if (user.username) {
+            dispatch(setMessage("info", `Welcome, ${user.username}`))
             console.log(user.username);
             history.replace('/palettes');
         }
@@ -47,7 +50,7 @@ function RegisterPage() {
 
     return (
         <Container fluid>
-            <div className="text-center mt-5">
+            <div className="text-center mt-5 py-3">
                 <h2>Sign up to Color Palette</h2>
             </div>
             <Formik
@@ -61,6 +64,7 @@ function RegisterPage() {
             >
                 { ({handleSubmit, handleChange, values, errors}) => (
                     <FormContainer className="w-50 mx-auto p-5" noValidate onSubmit={handleSubmit} >
+                        <MessageAlert />
                         <div className="w-100">
                             <Form.Group controlId="username">
                                 <Form.Label>Username</Form.Label>
@@ -111,4 +115,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default withHeaderFooter(RegisterPage);

@@ -8,12 +8,11 @@ import {
     FETCH_USER_FAIL,
 } from './types';
 import AuthService from '../Services/auth';
-import axios from "axios";
-
 
 export const register = ({username, email, password}) => async (dispatch) => {
     try {
         const { data: user } = await AuthService.register(username, email, password);//after component dispatch(action), and before it arrives reducer
+        await AuthService.login(username, password);
         dispatch({
             type: REGISTER_SUCCESS,
             payload: user

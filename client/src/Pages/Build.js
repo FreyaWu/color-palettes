@@ -5,11 +5,12 @@ import { selectAuth } from '../Reducers/auth';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
+import { setMessage } from '../Actions/message';
+import MessageAlert from '../Components/MessageAlert';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import PaletteService from '../Services/palette';
 import axios from 'axios';
@@ -103,12 +104,6 @@ function BuildPage() {
         console.log(colorArray);
         await PaletteService.savePalette(colorArray, image);
         history.replace('/palettes');
-
-        // e.preventDefault();
-        // const colorArray = colors.map(color => color.toRgbString())
-        // console.log(colorArray);
-        // const newPalette = await axios.post('/palettes/', {colorArray, image});
-        // history.replace('/palettes');
     }
 
     const renderLoggedIn = (

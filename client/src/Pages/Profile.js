@@ -34,7 +34,6 @@ function Profile() {
         }
         const fetchLikedPalettes = async () => {
             const { data: likedPalettes } = await UserService.getLikedPalettes();
-            console.log(likedPalettes);
             setLikedPalettes(likedPalettes);
         };
         if(mounted) {
