@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/palettes/';
+const API_URL = '/api/palettes/';
 
 const getAllPalettes = () => {
     return axios.get(API_URL);

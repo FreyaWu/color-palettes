@@ -43,7 +43,7 @@ function App() {
           <Route exact path='/gallery' component={GalleryPage}/>
           <Route exact path='/palettes' component={PalettePage}/>
           <Route exact path='/palettes/:paletteId' component={ShowPage}/>
-          <Route exact path='/current-user' component={ProfilePage}/>
+          <Route exact path='/profile' component={ProfilePage}/>
           <Route exact path='/palettes/:paletteId/edit' component={EditPage}/>
         </Switch>
       </BrowserRouter>

@@ -51,6 +51,7 @@ function LoginPage() {
 
     return (
         <Container fluid>
+            <MessageAlert />
             <div className="text-center mt-5 py-3">
                 <h2>Sign in to Color Palette</h2>
             </div>
@@ -69,7 +70,7 @@ function LoginPage() {
                     errors,
                 }) => (
                     <FormContainer onSubmit={handleSubmit} className="d-flex mx-auto w-50 p-5">
-                        <MessageAlert />
+                        
                         <div className="w-100">
                             <Form.Group controlId="username">
                                 <Form.Label>Username</Form.Label>

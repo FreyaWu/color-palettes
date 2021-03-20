@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import PaletteCard from '../Components/PaletteCard';
 import PaletteService from '../Services/palette';
+import MessageAlert from '../Components/MessageAlert';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
@@ -31,6 +32,7 @@ function PaletteGalleryPage() {
     }, []);
     return (
         <Container fluid className="mt-4">
+            <MessageAlert />
             <PalettesContainer className="px-4 card-deck">
                 {palettes.map(palette => (
                     <PaletteCard key={palette._id} {...palette} />

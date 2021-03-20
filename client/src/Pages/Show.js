@@ -15,8 +15,7 @@ import ColorCard from '../Components/ColorCard';
 import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
-import { set } from 'mongoose';
-import axios from 'axios';
+import MessageAlert from '../Components/MessageAlert';
 import { HeartFill, PencilSquare, TrashFill} from 'react-bootstrap-icons';
 
 const ColorDiv = styled.div`
@@ -106,6 +105,7 @@ function ShowPage() {
     )
     return (
         <Container>
+            <MessageAlert />
             <div>
                 {palette.image === "" ? renderColorDiv : renderImage}
             </div>

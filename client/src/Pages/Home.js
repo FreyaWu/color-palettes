@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
+import MessageAlert from '../Components/MessageAlert';
 
 const Column = styled(Col)`
     background-color: ${props => props.color};
@@ -14,6 +15,7 @@ const Column = styled(Col)`
 function HomePage() {
     return (
         <Container fluid className="h-100">
+            <MessageAlert />
             <Row className="h-100">
                 <Column color={"#F299E3"} className="d-flex">
                     <div className="align-self-center mx-auto text-center">

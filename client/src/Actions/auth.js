@@ -6,6 +6,7 @@ import {
     LOGOUT,
     FETCH_USER_SUCCESS,
     FETCH_USER_FAIL,
+    SET_MESSAGE,
 } from './types';
 import AuthService from '../Services/auth';
 
@@ -21,7 +22,14 @@ export const register = ({username, email, password}) => async (dispatch) => {
         dispatch({
             type: REGISTER_FAIL,
         });
-    }
+        dispatch({
+            type: SET_MESSAGE,
+            payload: {
+                veriant: "danger",
+                message: error.response.data && error.response.data.message
+            }
+        })
+    };
 };
 
 export const login = ({username, password}) => async (dispatch) => {
@@ -35,6 +43,13 @@ export const login = ({username, password}) => async (dispatch) => {
         dispatch({
             type: LOGIN_FAIL,
         });
+        dispatch({
+            type: SET_MESSAGE,
+            payload: {
+                variant: "danger",
+                message: error.response.data,
+            }
+        });
     }
 };
 
@@ -43,6 +58,14 @@ export const logout = () => async (dispatch) => {
     dispatch({
         type: LOGOUT,
     });
+
+    dispatch({
+        type: SET_MESSAGE,
+        payload: {
+            variant: "info",
+            message: "You have logged out."
+        }
+    })
 };
 
 export const fetchUser = () => async (dispatch) => {

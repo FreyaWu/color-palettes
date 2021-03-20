@@ -9,6 +9,7 @@ import Container from 'react-bootstrap/Container';
 import Cover from '../Components/Cover';
 import ArtworkCard from '../Components/ArtworkCard';
 import ArtworkService from '../Services/artwork';
+import MessageAlert from '../Components/MessageAlert';
 
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
@@ -35,8 +36,8 @@ function GalleryPage() {
 
     return (
         <>
-            <Cover />
             <Container fluid className="cus-container">
+                <MessageAlert />
                 <ArtworksContainer className="pt-4 px-4 card-deck">
                     {
                         artworks.map((artwork) => (

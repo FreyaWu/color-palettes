@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = "/auth/";
+const API_URL = "/api/auth/";
 
 const register = (username, email, password) => {
     return axios.post(API_URL + "register", {
@@ -18,7 +18,7 @@ const login = (username, password) => {
 };
 
 const fetchUser = () => {
-    return axios.get(API_URL + "current-user");
+    return axios.get(API_URL + "profile");
 };
 
 const logout = () => {

@@ -10,10 +10,9 @@ import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import { setMessage } from '../Actions/message';
-import MessageAlert from '../Components/MessageAlert';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import PaletteService from '../Services/palette';
-import axios from 'axios';
+import MessageAlert from '../Components/MessageAlert';
 
 
 const ColorDiv = styled.div`
@@ -108,6 +107,7 @@ function BuildPage() {
 
     const renderLoggedIn = (
         <>
+            <MessageAlert />
             <Container className="my-1 p-0">
                 <div className="text-center font-weight-bold mb-1">
                     Artwork

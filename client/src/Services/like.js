@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/like/';
+const API_URL = '/api/like/';
 
 const getLikes = (paletteId) => {
     return axios.get(API_URL + paletteId + '/count');

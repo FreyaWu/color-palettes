@@ -24,7 +24,7 @@ authRouter.post('/login', passport.authenticate('local'), async (req, res) => {
     res.send(req.user);
 })
     
-authRouter.get('/current-user', (req, res) => {
+authRouter.get('/profile', (req, res) => {
     res.send(req.user);
 });
 
