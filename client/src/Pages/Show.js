@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {selectAuth} from '../Reducers/auth';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../Reducers/auth';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
-import Media from 'react-bootstrap/Media';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import tinyColor from 'tinycolor2';
 
 import ColorCard from '../Components/ColorCard';
 import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
-import { HeartFill, PencilSquare, TrashFill} from 'react-bootstrap-icons';
+import { HeartFill, TrashFill } from 'react-bootstrap-icons';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -31,8 +27,8 @@ function ShowPage() {
     const [isLiked, setIsLiked] = useState(false);
     const history = useHistory();
 
-    const fetchIsLiked = async() => {
-        if(!user.username) {
+    const fetchIsLiked = async () => {
+        if (!user.username) {
             setIsLiked(false);
             return;
         }
@@ -44,7 +40,7 @@ function ShowPage() {
         }
     }
 
-    const handleClickLike = async() => {
+    const handleClickLike = async () => {
         try {
             if (isLiked) {
                 await LikeService.deleteLike(paletteId);
@@ -57,7 +53,7 @@ function ShowPage() {
         }
     }
 
-    const handleClickDelete = async() => {
+    const handleClickDelete = async () => {
         try {
             await PaletteService.deletePalette(paletteId);
             setIsLiked(isLiked);
@@ -67,9 +63,9 @@ function ShowPage() {
         }
     }
 
-    const fetchPalette = async() => {
+    const fetchPalette = async () => {
         try {
-            const {data: palette} = await PaletteService.getPalette(paletteId);
+            const { data: palette } = await PaletteService.getPalette(paletteId);
             setPalette(palette);
         } catch (e) {
             throw Error(e)
@@ -82,13 +78,13 @@ function ShowPage() {
             fetchPalette();
             fetchIsLiked();
         }
-        return () => {mounted = false}
+        return () => { mounted = false }
     }, [paletteId])
 
     const renderColorDiv = (
         <Container fluid className="d-flex p-0 bg-white">
             {palette && palette.colors && palette.colors.map(color => (
-                <ColorDiv key={color} color={color} colorSize={palette.size}/> 
+                <ColorDiv key={color} color={color} colorSize={palette.size} />
             ))}
         </Container>
     )
@@ -115,8 +111,8 @@ function ShowPage() {
                         By {palette && palette.author && palette.author.username}
                     </div>
                     <div>
-                        {user.username && <Button variant={isLiked? "danger" : "outline-danger"} onClick={handleClickLike}>
-                            <HeartFill /> {isLiked? "Liked" : "Like"}
+                        {user.username && <Button variant={isLiked ? "danger" : "outline-danger"} onClick={handleClickLike}>
+                            <HeartFill /> {isLiked ? "Liked" : "Like"}
                         </Button>}
                     </div>
                     {user.username && palette.author && palette.author.username === user.username &&
@@ -127,14 +123,14 @@ function ShowPage() {
                             <Button variant="dark" className="ml-3" onClick={handleClickDelete}>
                                 <TrashFill /> Delete
                             </Button>
-                        </>  
+                        </>
                     }
                 </Container>
-                
+
             </Container>
             <Container className="d-flex flex-wrap p-0 mb-4">
-                {palette.colors && palette.colors.map(color => 
-                    <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5 }/> 
+                {palette.colors && palette.colors.map(color =>
+                    <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5} />
                 )}
             </Container>
         </Container>
