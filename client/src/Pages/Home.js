@@ -17,21 +17,21 @@ function HomePage() {
         <Container fluid className="h-100">
             <MessageAlert />
             <Row className="h-100">
-                <Column color={"#F299E3"} className="d-flex">
+                <Column color={"#F299E3"} className="d-flex col-12 col-md-4">
                     <div className="align-self-center mx-auto text-center">
                         <h1>Palette</h1>
                         <p>There are a lot of colors.</p>
                         <Button variant="outline-dark" href="/palettes">Check out colors</Button>
                     </div>
                 </Column>
-                <Column color={"#29F2F2"} className="d-flex">
+                <Column color={"#29F2F2"} className="d-flex col-12 col-md-4">
                     <div className="align-self-center mx-auto text-center">
                         <h1>Build</h1>
                         <p>Build your own colors.</p>
                         <Button variant="outline-dark" href="/build">Get started</Button>
                     </div>
                 </Column>
-                <Column color={"#D7F29B"} className="d-flex">
+                <Column color={"#D7F29B"} className="d-flex col-12 col-md-4">
                     <div className="align-self-center mx-auto text-center">
                         <h1>Gallery</h1>
                         <p>There are a lot of samples.</p>

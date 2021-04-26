@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import {register} from '../Actions/auth';
+import { register } from '../Actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 import { useHistory, Redirect } from "react-router-dom";
@@ -18,10 +20,10 @@ const FormContainer = styled(Form)`
 `;
 
 function RegisterPage() {
-    const {user} = useSelector(selectAuth);
+    const { user } = useSelector(selectAuth);
     const history = useHistory();
     const dispatch = useDispatch();
-    
+
     const schema = Yup.object().shape({
         username: Yup.string()
             .required()
@@ -46,71 +48,75 @@ function RegisterPage() {
             console.log(user.username);
             history.replace('/palettes');
         }
-    },[user])
+    }, [user])
 
     return (
         <Container fluid>
-            <div className="text-center mt-5 py-3">
-                <h2>Sign up to Color Palette</h2>
-            </div>
-            <Formik
-                validationSchema = {schema}
-                onSubmit = {(values) => { handleSubmit(values) }}
-                initialValues = {{
-                    username: '',
-                    email: '',
-                    password: '',
-                }}
-            >
-                { ({handleSubmit, handleChange, values, errors}) => (
-                    <FormContainer className="w-50 mx-auto p-5" noValidate onSubmit={handleSubmit} >
-                        <MessageAlert />
-                        <div className="w-100">
-                            <Form.Group controlId="username">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control 
-                                    name="username" 
-                                    type="string" 
-                                    value={values.username} 
-                                    onChange={handleChange} 
-                                    isInvalid={!!errors.username}/>
-                                <Form.Control.Feedback>
-                                    {errors.username}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            
-                            <Form.Group controlId="email">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control 
-                                    name="email" 
-                                    type="email" 
-                                    value={values.email}
-                                    onChange={handleChange} 
-                                    isInvalid={!!errors.email}/>
-                                <Form.Control.Feedback>
-                                    {errors.email}
-                                </Form.Control.Feedback>
-                            </Form.Group>
+            <Row>
+                <Col className="col-12 col-md-6 mt-2 mt-sm-5">
+                    <div className="text-center py-3">
+                        <h2>Sign up to Color Palette</h2>
+                    </div>
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={(values) => { handleSubmit(values) }}
+                        initialValues={{
+                            username: '',
+                            email: '',
+                            password: '',
+                        }}
+                    >
+                        {({ handleSubmit, handleChange, values, errors }) => (
+                            <FormContainer className="p-5" noValidate onSubmit={handleSubmit} >
+                                <MessageAlert />
+                                <div className="w-100">
+                                    <Form.Group controlId="username">
+                                        <Form.Label>Username</Form.Label>
+                                        <Form.Control
+                                            name="username"
+                                            type="string"
+                                            value={values.username}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.username} />
+                                        <Form.Control.Feedback>
+                                            {errors.username}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
 
-                            <Form.Group controlId="password">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control 
-                                    name="password" 
-                                    type="password" 
-                                    value={values.password}
-                                    onChange={handleChange} 
-                                    isInvalid={!!errors.password}/>
-                                <Form.Control.Feedback>
-                                    {errors.password}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Button variant="dark" type="submit" block>
-                                Register
-                            </Button>
-                        </div>
-                    </FormContainer>
-                ) }
-            </Formik>
+                                    <Form.Group controlId="email">
+                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Control
+                                            name="email"
+                                            type="email"
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.email} />
+                                        <Form.Control.Feedback>
+                                            {errors.email}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+
+                                    <Form.Group controlId="password">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control
+                                            name="password"
+                                            type="password"
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            isInvalid={!!errors.password} />
+                                        <Form.Control.Feedback>
+                                            {errors.password}
+                                        </Form.Control.Feedback>
+                                    </Form.Group>
+                                    <Button variant="dark" type="submit" block>
+                                        Register
+                                    </Button>
+                                </div>
+                            </FormContainer>
+                        )}
+                    </Formik>
+                </Col>
+            </Row>
         </Container>
     );
 }

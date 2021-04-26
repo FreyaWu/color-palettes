@@ -26,39 +26,39 @@ const AlphaContainer = style.div`
 
 
 function MyPicker({
-    hex, 
-    hsl, 
-    hsv, 
-    rgb, 
+    hex,
+    hsl,
+    hsv,
+    rgb,
     onChange
 }) {
     return (
         <Container fluid>
             <Row className="my-4">
-                <Col className="mr-2">
-                    <SaturationContainer>
-                        <Saturation 
+                <Col xs={12} md className="mr-md-2 mb-2 mb-sm-0">
+                    <SaturationContainer style={{ height: "10rem" }}>
+                        <Saturation
                             hsl={hsl}
                             hsv={hsv}
                             onChange={onChange}
                         />
                     </SaturationContainer>
                 </Col>
-                <Col className="ml-2">
+                <Col xs={12} md className="ml-md-2">
                     <Row className="mb-3">
                         <HueContainer>
-                            <Hue 
-                            hsl={hsl} 
-                            onChange={onChange}
+                            <Hue
+                                hsl={hsl}
+                                onChange={onChange}
                             />
                         </HueContainer>
                     </Row>
                     <Row className="my-3">
                         <AlphaContainer>
-                            <Alpha 
-                            rgb={rgb} 
-                            hsl={hsl}
-                            onChange={onChange}
+                            <Alpha
+                                rgb={rgb}
+                                hsl={hsl}
+                                onChange={onChange}
                             />
                         </AlphaContainer>
                     </Row>

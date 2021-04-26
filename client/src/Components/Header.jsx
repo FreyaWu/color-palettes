@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { selectAuth } from '../Reducers/auth';
-import {logout} from '../Actions/auth';
+import { logout } from '../Actions/auth';
 
 const BORDER_RADIUS = 3;
 
@@ -17,22 +17,26 @@ const NavbarContainer = styled(Navbar)`
     border-bottom: 0;
 `;
 
-const NavbarBrand = styled(Navbar.Brand)`
+const NavbarBrand = styled(Button)`
     border: ${BORDER_RADIUS}px solid black;
-    border-radius: 25px;
-    padding-left: 10px;
-    padding-right: 10px;
+    font-size: 1rem;
+    border-radius: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: white;
+    color: black;
 `;
 
 const NavlinkContainer = styled(Nav.Link)`
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 2rem;
+    padding-right: 2rem;
     font-size: 15px !important; 
+    
 `;
 
 
 function Header() {
-    const {user} = useSelector(selectAuth);
+    const { user } = useSelector(selectAuth);
     const dispatch = useDispatch();
     const location = useLocation();
     // console.log(user);
@@ -59,24 +63,17 @@ function Header() {
         </Form>
     )
     return (
-        <NavbarContainer bg="light" expand="lg" sticky="top">
-            <NavbarBrand href="/">Color-Palettes</NavbarBrand>
+        <NavbarContainer className="text-align-center" bg="light" expand="lg" sticky="top">
+            <NavbarBrand variant="dark" href="/">Color Palettes</NavbarBrand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" >
-                <Nav className="mr-auto justify-content-center">
+                <Nav className="ml-auto mr-auto">
                     <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
                     <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
-                    { user && <NavlinkContainer href="/profile">My page</NavlinkContainer>}
-                    {/* <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                    </NavDropdown> */}
+                    {user && <NavlinkContainer href="/profile">My page</NavlinkContainer>}
                 </Nav>
-                { user ? renderLoggedIn : renderLoggedOut }
+                {user ? renderLoggedIn : renderLoggedOut}
             </Navbar.Collapse>
         </NavbarContainer>
     );

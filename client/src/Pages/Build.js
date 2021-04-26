@@ -5,6 +5,8 @@ import { selectAuth } from '../Reducers/auth';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
@@ -19,7 +21,7 @@ const ColorDiv = styled.div`
     display: flex;
     flex: 1;
     width: calc(100% / ${props => props.colorSize});
-    height: 25rem;
+    height: 25vh;
     background-color: ${props => props.color};
 `
 const ColorBoxOverlay = styled.div`
@@ -32,7 +34,7 @@ const ColorBoxOverlay = styled.div`
 
 const ColorBoxContainer = styled.div`
     width: 10%;
-    height: 7rem;
+    height: 7vw;
     cursor: pointer;
 `;
 
@@ -46,11 +48,12 @@ const ColorBox = styled.div`
 
 const AddColorButton = styled(Button)`
     width: 10%;
-    font-size: 4rem;
+    height: 7vw;
+    font-size: 5vw;
 `;
 
 function BuildPage() {
-    const {user} = useSelector(selectAuth);
+    const { user } = useSelector(selectAuth);
     const [colors, setColors] = useState([tinyColor.random()]);
     const [colorIndex, setColorIndex] = useState(0);
     const [image, setImage] = useState("");
@@ -63,7 +66,7 @@ function BuildPage() {
     const handleSelectColorBox = index => {
         setColorIndex(index);
     }
-    
+
     const handleColorChange = color => {
         setColors([
             ...colors.slice(0, colorIndex),
@@ -88,7 +91,7 @@ function BuildPage() {
                 return;
             }
         }
-        setColors([...colors, tinyColor.random()]);
+        setColors([...colors, currentColor()]);
         setColorIndex(colors.length);
     }
 
@@ -107,7 +110,6 @@ function BuildPage() {
 
     const renderLoggedIn = (
         <>
-            <MessageAlert />
             <Container className="my-1 p-0">
                 <div className="text-center font-weight-bold mb-1">
                     Artwork
@@ -119,12 +121,12 @@ function BuildPage() {
                 </Form>
             </Container>
             <Container className="pb-3">
-                {image !== "" && 
+                {image !== "" &&
                     <div className="text-center font-weight-bold pb-2">
                         Preview
                     </div>
                 }
-                <Image src={image} fluid/>
+                <Image src={image} fluid />
             </Container>
             <Container>
                 <Button variant="dark" type="submit" block onClick={handleSubmit}>
@@ -133,22 +135,25 @@ function BuildPage() {
             </Container>
         </>
     )
-    
+
     return (
         <>
+            {user && <MessageAlert />}
             <Container fluid className="bg-light px-0 pb-5">
-                < ColorDiv color={currentColor().toRgbString()} />
-                <Container>
-                    <ColorPicker 
-                        className="p-2" 
+                <ColorDiv color={currentColor().toRgbString()} />
+
+                <Container className="justify-content-center">
+                    <ColorPicker
+                        className="p-2"
                         color={currentColor().toRgb()}
                         onChange={handleColorChange}
                     />
                 </Container>
+
                 <Container className="border bg-white px-0">
                     <div className="d-flex">
                         {colors.map((color, cIdx) => (
-                            <ColorBoxContainer 
+                            <ColorBoxContainer
                                 className="rounded d-flex justify-content-center"
                                 key={cIdx}
                                 style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
@@ -159,28 +164,28 @@ function BuildPage() {
                                     style={{ backgroundColor: color.toRgbString() }}
                                 >
                                     {cIdx !== colorIndex &&
-                                            <ColorBoxOverlay className="d-flex justify-content-center">
-                                                <Button
-                                                    className="my-auto"
-                                                    variant="dark"
-                                                    onClick={(e) => handleDeleteColor(e, cIdx)}//added e
-                                                >
-                                                    X
+                                        <ColorBoxOverlay className="d-flex justify-content-center">
+                                            <Button
+                                                className="my-auto"
+                                                variant="dark"
+                                                onClick={(e) => handleDeleteColor(e, cIdx)}//added e
+                                            >
+                                                X
                                                 </Button>
-                                            </ColorBoxOverlay>
-                                        }
+                                        </ColorBoxOverlay>
+                                    }
                                 </ColorBox>
                             </ColorBoxContainer>
                         ))}
                         {colors.length < 10 &&
-                                <AddColorButton
-                                    className="border text-center border-0 rounded p-0"
-                                    variant="light"
-                                    onClick={handleAddColor}
-                                >
-                                    +
+                            <AddColorButton
+                                className="border text-center border-0 rounded p-0"
+                                variant="light"
+                                onClick={handleAddColor}
+                            >
+                                +
                             </AddColorButton>
-                            }
+                        }
                     </div>
                 </Container>
                 {user && renderLoggedIn}

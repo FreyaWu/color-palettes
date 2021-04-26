@@ -12,7 +12,7 @@ import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
-import { HeartFill, TrashFill } from 'react-bootstrap-icons';
+import { HeartFill, TrashFill, EyeFill } from 'react-bootstrap-icons';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -25,7 +25,15 @@ function ShowPage() {
     const { user } = useSelector(selectAuth);
     const [palette, setPalette] = useState({});
     const [isLiked, setIsLiked] = useState(false);
+    const [views, setViews] = useState(0);
     const history = useHistory();
+
+    const fetchViews = async () => {
+        const { data: views } = await PaletteService.getPaletteViews(paletteId);
+        setViews(views + 1);
+        const newViews = await PaletteService.updatePaletteViews(paletteId, views + 1);
+    }
+
 
     const fetchIsLiked = async () => {
         if (!user.username) {
@@ -77,6 +85,7 @@ function ShowPage() {
         if (mounted) {
             fetchPalette();
             fetchIsLiked();
+            fetchViews();
         }
         return () => { mounted = false }
     }, [paletteId])
@@ -109,6 +118,10 @@ function ShowPage() {
                 <Container className="d-flex bg-white py-2 mb-3">
                     <div className="font-weight-bold mr-auto">
                         By {palette && palette.author && palette.author.username}
+                    </div>
+                    <div className="d-flex align-items-center mr-3">
+                        <EyeFill variant="transparent" className="mr-1" />
+                        <div className="mr-1">{views}</div>
                     </div>
                     <div>
                         {user.username && <Button variant={isLiked ? "danger" : "outline-danger"} onClick={handleClickLike}>

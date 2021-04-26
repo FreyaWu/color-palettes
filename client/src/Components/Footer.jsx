@@ -10,7 +10,7 @@ function Footer() {
     return (
         <FooterContainer className="bg-dark text-light text-center">
             <div>
-                <span className="text">&copy; Color-Palette {new Date().getFullYear()}</span>
+                <span className="text">&copy; Color Palettes {new Date().getFullYear()}</span>
             </div>
         </FooterContainer>
     );

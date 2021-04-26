@@ -8,7 +8,8 @@ const PaletteSchema = new Schema({
     title: String,
     size: Number,
     image: String,
-    colors: [String]
+    colors: [String],
+    views: Number
 });
 
 model('Palette', PaletteSchema);
