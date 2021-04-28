@@ -55,9 +55,9 @@ function LoginPage() {
         <Container fluid>
             <MessageAlert />
             <Row className="justify-content-center mt-2 mt-sm-5">
-                <Col className="col-xs-12 col-md-6">
+                <Col className="col-12 col-md-6 mt-2 mt-sm-5">
                     <div className="text-center py-3">
-                        <h2>Sign in to Color Palette</h2>
+                        <h3>Sign in to Color Palette</h3>
                     </div>
                     <Formik
                         validationSchema={schema}
