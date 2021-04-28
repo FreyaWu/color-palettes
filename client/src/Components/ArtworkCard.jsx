@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import LikeButton from './LikeButton';
-import {HeartFill} from "react-bootstrap-icons";
+import { HeartFill } from "react-bootstrap-icons";
 
 import ArtworkService from '../Services/artwork';
 import LikeService from '../Services/like';
@@ -59,13 +59,13 @@ const ColorSpan = styled.span`
 `;
 
 
-function ArtworkCard({artwork}) {
-    const [likes, setLikes] =  useState(0);
+function ArtworkCard({ artwork }) {
+    const [likes, setLikes] = useState(0);
     const colors = artwork.colors;
     console.log(artwork);
 
-    const fetchLikes = async() => {
-        const {data: likes} = await LikeService.getLikes(artwork._id);
+    const fetchLikes = async () => {
+        const { data: likes } = await LikeService.getLikes(artwork._id);
         setLikes(likes);
     }
 
@@ -77,7 +77,7 @@ function ArtworkCard({artwork}) {
         await LikeService.postLike(artwork._id);
         fetchLikes();
     };
-    
+
     return (
         <Card className="border-0">
             <Link
@@ -92,16 +92,12 @@ function ArtworkCard({artwork}) {
                         variant="top"
                         src={artwork.image}
                     />
-                    <CardOverlay>
-                        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+                    <CardOverlay >
+                        <Card.Subtitle className="mb-2 text-muted ">Card Subtitle</Card.Subtitle>
                         <Card.Text>
                             Some quick example text to build on the card title and make up the bulk of
                             the card's content.
-                    </Card.Text>
-                        {/* <Card.Link href="#">View Detail</Card.Link> */}
-                        {/* <div className="colorPalette" >
-                        {colors.map(color => <ColorBox color={color} />)}
-                    </div> */}
+                        </Card.Text>
                     </CardOverlay>
                 </CardImageContainer>
                 <PaletteContainer>
@@ -114,7 +110,7 @@ function ArtworkCard({artwork}) {
             <Card.Footer className="d-flex border rounded-bottom bg-white">
                 <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>
                 <div className="d-flex ml-auto align-items-center">
-                    <HeartFill onClick={addLike} variant="transparent" className="mr-1"/>
+                    <HeartFill onClick={addLike} variant="transparent" className="mr-1" />
                     <div className="">{likes}</div>
                 </div>
             </Card.Footer>

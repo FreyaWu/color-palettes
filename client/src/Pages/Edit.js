@@ -50,23 +50,23 @@ const AddColorButton = styled(Button)`
 `;
 
 function BuildPage() {
-    const {user} = useSelector(selectAuth);
-    const {paletteId} = useParams();
+    const { user } = useSelector(selectAuth);
+    const { paletteId } = useParams();
     const [palette, setPalette] = useState([]);
     const [colors, setColors] = useState([tinyColor.random()]);
     const [colorIndex, setColorIndex] = useState(0);
     const [image, setImage] = useState("");
     const history = useHistory();
 
-    useEffect (() => {
-        const fetchPalette = async() => {
-            const {data: palette} = await PaletteService.getPalette(paletteId);
+    useEffect(() => {
+        const fetchPalette = async () => {
+            const { data: palette } = await PaletteService.getPalette(paletteId);
             setPalette(palette);
             setColors(palette.colors.map(color => tinyColor(color)));
             setImage(palette.image);
         }
         fetchPalette();
-    },[paletteId]);
+    }, [paletteId]);
 
     const currentColor = () => {
         return colors[colorIndex];
@@ -75,7 +75,7 @@ function BuildPage() {
     const handleSelectColorBox = index => {
         setColorIndex(index);
     }
-    
+
     const handleColorChange = color => {
         setColors([
             ...colors.slice(0, colorIndex),
@@ -100,7 +100,7 @@ function BuildPage() {
                 return;
             }
         }
-        setColors([...colors, tinyColor.random()]);
+        setColors([...colors, currentColor()]);
         setColorIndex(colors.length);
     }
 
@@ -114,7 +114,7 @@ function BuildPage() {
         const newColors = colors.map(color => color.toRgbString())
         const newSize = newColors.length;
         // console.log(newColors);
-        const {data: palette} = await PaletteService.editPalette(paletteId, newColors, image, newSize);
+        const { data: palette } = await PaletteService.editPalette(paletteId, newColors, image, newSize);
         // console.log(palette);
         setPalette(palette);
         history.replace('/palettes');
@@ -133,12 +133,12 @@ function BuildPage() {
                 </Form>
             </Container>
             <Container className="pb-3">
-                {image !== "" && 
+                {image !== "" &&
                     <div className="text-center font-weight-bold pb-2">
                         Preview
                     </div>
                 }
-                <Image src={image} fluid/>
+                <Image src={image} fluid />
             </Container>
             <Container>
                 <Button variant="dark" type="submit" block onClick={handleUpdate}>
@@ -147,14 +147,14 @@ function BuildPage() {
             </Container>
         </>
     )
-    
+
     return (
         <>
             <Container fluid className="bg-light px-0 pb-5">
                 < ColorDiv color={currentColor().toRgbString()} />
                 <Container>
-                    <ColorPicker 
-                        className="p-2" 
+                    <ColorPicker
+                        className="p-2"
                         color={currentColor().toRgb()}
                         onChange={handleColorChange}
                     />
@@ -162,7 +162,7 @@ function BuildPage() {
                 <Container className="border bg-white px-0">
                     <div className="d-flex">
                         {colors.map((color, cIdx) => (
-                            <ColorBoxContainer 
+                            <ColorBoxContainer
                                 className="rounded d-flex justify-content-center"
                                 key={cIdx}
                                 style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
@@ -173,28 +173,28 @@ function BuildPage() {
                                     style={{ backgroundColor: color.toRgbString() }}
                                 >
                                     {cIdx !== colorIndex &&
-                                            <ColorBoxOverlay className="d-flex justify-content-center">
-                                                <Button
-                                                    className="my-auto"
-                                                    variant="dark"
-                                                    onClick={(e) => handleDeleteColor(e, cIdx)}//added e
-                                                >
-                                                    X
+                                        <ColorBoxOverlay className="d-flex justify-content-center">
+                                            <Button
+                                                className="my-auto"
+                                                variant="dark"
+                                                onClick={(e) => handleDeleteColor(e, cIdx)}//added e
+                                            >
+                                                X
                                                 </Button>
-                                            </ColorBoxOverlay>
-                                        }
+                                        </ColorBoxOverlay>
+                                    }
                                 </ColorBox>
                             </ColorBoxContainer>
                         ))}
                         {colors.length < 10 &&
-                                <AddColorButton
-                                    className="border text-center border-0 rounded p-0"
-                                    variant="light"
-                                    onClick={handleAddColor}
-                                >
-                                    +
+                            <AddColorButton
+                                className="border text-center border-0 rounded p-0"
+                                variant="light"
+                                onClick={handleAddColor}
+                            >
+                                +
                             </AddColorButton>
-                            }
+                        }
                     </div>
                 </Container>
                 {user && renderLoggedIn}

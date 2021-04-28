@@ -38,7 +38,6 @@ palettesRouter.get('/:paletteId/views', async (req, res) => {
 palettesRouter.patch('/:paletteId/views', async (req, res) => {
     const { paletteId } = req.params;
     const { views } = req.body;
-    console.log(views);
     const palette = await Palette.findOneAndUpdate({ _id: paletteId }, { $set: { views: views } });
     res.send(palette.views.toString());
 })

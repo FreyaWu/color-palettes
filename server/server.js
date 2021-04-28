@@ -21,10 +21,11 @@ require('./models/like');
 // require('./models/User');
 
 require('mongoose').connect(dbUrl, {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true
-    })
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+})
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
     })

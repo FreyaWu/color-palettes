@@ -103,7 +103,7 @@ function BuildPage() {
     const handleSubmit = async e => {
         e.preventDefault();
         const colorArray = colors.map(color => color.toRgbString())
-        console.log(colorArray);
+        // console.log(colorArray);
         await PaletteService.savePalette(colorArray, image);
         history.replace('/palettes');
     }
@@ -115,10 +115,13 @@ function BuildPage() {
                     Artwork
                 </div>
                 <Form>
-                    <Form.Group controlId="onlineImage" className="d-flex">
-                        <Form.Control placeholder="Enter an image address (Optional)" onChange={handleImageChange} />
-                    </Form.Group>
+                    <div className="mb-3">
+                        <Form.Group controlId="onlineImage" className="d-flex">
+                            <Form.Control placeholder="Enter an image address (Optional)" onChange={handleImageChange} />
+                        </Form.Group>
+                    </div>
                 </Form>
+
             </Container>
             <Container className="pb-3">
                 {image !== "" &&

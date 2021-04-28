@@ -3,6 +3,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
@@ -12,7 +14,8 @@ import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
-import { HeartFill, TrashFill, EyeFill } from 'react-bootstrap-icons';
+import { HeartFill, TrashFill, EyeFill, PencilSquare, Link45deg } from 'react-bootstrap-icons';
+import artwork from '../Services/artwork';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -105,8 +108,9 @@ function ShowPage() {
                 className="mx-auto"
                 src={palette.image}
                 className="d-flex"
-            ></Image>
-        </Container>
+            >
+            </Image>
+        </Container >
     )
     return (
         <Container>
@@ -117,7 +121,7 @@ function ShowPage() {
             <Container>
                 <Container className="d-flex bg-white py-2 mb-3">
                     <div className="font-weight-bold mr-auto">
-                        By {palette && palette.author && palette.author.username}
+                        Palette saved by {palette && palette.author && palette.author.username}
                     </div>
                     <div className="d-flex align-items-center mr-3">
                         <EyeFill variant="transparent" className="mr-1" />
@@ -131,11 +135,16 @@ function ShowPage() {
                     {user.username && palette.author && palette.author.username === user.username &&
                         <>
                             <Button variant="dark" href={`/palettes/${paletteId}/edit`} className="ml-3">
-                                <TrashFill /> Edit
+                                <PencilSquare /> Edit
                             </Button>
                             <Button variant="dark" className="ml-3" onClick={handleClickDelete}>
                                 <TrashFill /> Delete
                             </Button>
+                            {palette.image &&
+                                <Button variant="dark" className="ml-3" href={palette.image}>
+                                    <Link45deg /> Source link
+                                </Button>
+                            }
                         </>
                     }
                 </Container>
