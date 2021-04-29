@@ -102,7 +102,7 @@ function ShowPage() {
     )
 
     const renderImage = (
-        <Container className="d-flex justify-content-center bg-white p-0">
+        <Container fluid className="d-flex justify-content-center bg-white p-0">
             <Image
                 fluid
                 className="mx-auto"
@@ -145,7 +145,7 @@ function ShowPage() {
                     {palette.image &&
                         <Button variant="dark" className="ml-3" href={palette.image}>
                             <Link45deg /> Source
-                    </Button>
+                        </Button>
                     }
                 </div>
             </Row>
