@@ -123,7 +123,7 @@ function ShowPage() {
                     <div className="font-weight-bold mr-auto">
                         Palette saved by {palette && palette.author && palette.author.username}
                     </div>
-                    <div className="d-flex align-items-center mr-3">
+                    <div className="d-flex align-items-center mr-2">
                         <EyeFill variant="transparent" className="mr-1" />
                         <div className="mr-1">{views}</div>
                     </div>
@@ -140,12 +140,12 @@ function ShowPage() {
                             <Button variant="dark" className="ml-3" onClick={handleClickDelete}>
                                 <TrashFill /> Delete
                             </Button>
-                            {palette.image &&
-                                <Button variant="dark" className="ml-3" href={palette.image}>
-                                    <Link45deg /> Source link
-                                </Button>
-                            }
                         </>
+                    }
+                    {palette.image &&
+                        <Button variant="dark" className="ml-3" href={palette.image}>
+                            <Link45deg /> Source link
+                        </Button>
                     }
                 </Container>
 
