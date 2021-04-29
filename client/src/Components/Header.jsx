@@ -47,18 +47,18 @@ function Header() {
 
     const renderLoggedIn = (
         <Form inline>
-            <Button variant="light" onClick={handleLogout}>Log out</Button>
+            <Button className="ml-auto btn btn-sm btn-secondary" onClick={handleLogout}>Log out</Button>
         </Form>
     )
 
     const renderLoggedOut = (
         <Form inline>
-            <Button variant="light" href="/register">Register</Button>
+            <Button className="ml-auto mr-2 btn btn-sm btn-secondary" href="/register">Register</Button>
             <Link to={{
                 pathname: "/login",
                 state: { from: location.pathname }
             }}>
-                <Button variant="light" >Login</Button>
+                <Button className="ml-auto btn btn-sm btn-secondary">Login</Button>
             </Link>
         </Form>
     )

@@ -1,9 +1,9 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import styled from 'styled-components';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
-function ColorCode({content}) {
+function ColorCode({ content }) {
     const [show, setShow] = useState(false);
 
     const renderTooltip = (props) => (
@@ -13,12 +13,12 @@ function ColorCode({content}) {
     )
 
     const renderNothing = (props) => (
-        <div/>
+        <div />
     )
 
     const handleClickCode = (e) => {
         setShow(true);
-        setTimeout(() => {setShow(false)}, 1000);
+        setTimeout(() => { setShow(false) }, 1000);
         const el = document.createElement('textarea');
         el.value = e.target.textContent;
         document.body.appendChild(el);
@@ -30,14 +30,15 @@ function ColorCode({content}) {
     return (
         <OverlayTrigger
             placement="top"
+            style={{ backgroundColor: "grey" }}
             delay={{ show: 250, hide: 400 }}
             overlay={show ? renderTooltip : renderNothing}
         >
-            <div style={{ cursor: "pointer" }} onClick={handleClickCode}> 
+            <div style={{ cursor: "pointer" }} onClick={handleClickCode}>
                 {content}
             </div>
         </OverlayTrigger>
-        
+
     );
 }
 

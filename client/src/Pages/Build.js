@@ -146,7 +146,7 @@ function BuildPage() {
     return (
         <>
             {user && <MessageAlert />}
-            <Container fluid className="bg-light px-0 pb-5">
+            <Container fluid className="bg-light px-0 pb-5 h-100">
                 <ColorDiv color={currentColor().toRgbString()} />
 
                 <Container className="justify-content-center">

@@ -19,7 +19,7 @@ const ColorDiv = styled.div`
     display: flex;
     flex: 1;
     width: calc(100% / ${props => props.colorSize});
-    height: 25rem;
+    height: 25vh;
     background-color: ${props => props.color};
 `
 const ColorBoxOverlay = styled.div`
@@ -32,7 +32,7 @@ const ColorBoxOverlay = styled.div`
 
 const ColorBoxContainer = styled.div`
     width: 10%;
-    height: 7rem;
+    height: 7vw;
     cursor: pointer;
 `;
 
@@ -46,7 +46,12 @@ const ColorBox = styled.div`
 
 const AddColorButton = styled(Button)`
     width: 10%;
-    font-size: 4rem;
+    height: 7vw;
+    font-size: 4vw;
+`;
+
+const DeleteColorButton = styled(Button)`
+    font-size: 1.5vw;
 `;
 
 function BuildPage() {
@@ -174,13 +179,13 @@ function BuildPage() {
                                 >
                                     {cIdx !== colorIndex &&
                                         <ColorBoxOverlay className="d-flex justify-content-center">
-                                            <Button
+                                            <DeleteColorButton
                                                 className="my-auto"
                                                 variant="dark"
                                                 onClick={(e) => handleDeleteColor(e, cIdx)}//added e
                                             >
                                                 X
-                                                </Button>
+                                                </DeleteColorButton>
                                         </ColorBoxOverlay>
                                     }
                                 </ColorBox>

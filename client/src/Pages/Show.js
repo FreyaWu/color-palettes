@@ -20,7 +20,7 @@ import artwork from '../Services/artwork';
 const ColorDiv = styled.div`
     flex: 1 1 0;
     background-color: ${props => props.color};
-    padding-top: 15%;
+    padding-top: 25%;
 `;
 
 function ShowPage() {
@@ -115,23 +115,23 @@ function ShowPage() {
     return (
         <Container>
             <MessageAlert />
-            <div>
+            <Row>
                 {palette.image === "" ? renderColorDiv : renderImage}
-            </div>
-            <Container>
-                <Container className="d-flex bg-white py-2 mb-3">
-                    <div className="font-weight-bold mr-auto">
-                        Palette saved by {palette && palette.author && palette.author.username}
-                    </div>
-                    <div className="d-flex align-items-center mr-2">
-                        <EyeFill variant="transparent" className="mr-1" />
-                        <div className="mr-1">{views}</div>
-                    </div>
-                    <div>
-                        {user.username && <Button variant={isLiked ? "danger" : "outline-danger"} onClick={handleClickLike}>
-                            <HeartFill /> {isLiked ? "Liked" : "Like"}
-                        </Button>}
-                    </div>
+            </Row>
+            <Row className="d-flex bg-white py-2 mb-3 px-2 px-md-0 justify-content-center">
+                <div className="font-weight-bold mr-auto mt-2">
+                    Palette saved by {palette && palette.author && palette.author.username}
+                </div>
+                <div className="d-flex align-items-center mr-2">
+                    <EyeFill variant="transparent" className="mr-1" />
+                    <div className="mr-1">{views}</div>
+                </div>
+                <div>
+                    {user.username && <Button variant={isLiked ? "danger" : "outline-danger"} onClick={handleClickLike}>
+                        <HeartFill /> {isLiked ? "Liked" : "Like"}
+                    </Button>}
+                </div>
+                <div className="pt-2 pt-md-0">
                     {user.username && palette.author && palette.author.username === user.username &&
                         <>
                             <Button variant="dark" href={`/palettes/${paletteId}/edit`} className="ml-3">
@@ -144,18 +144,18 @@ function ShowPage() {
                     }
                     {palette.image &&
                         <Button variant="dark" className="ml-3" href={palette.image}>
-                            <Link45deg /> Source link
-                        </Button>
+                            <Link45deg /> Source
+                    </Button>
                     }
-                </Container>
+                </div>
+            </Row>
 
-            </Container>
-            <Container className="d-flex flex-wrap p-0 mb-4">
+            <div className="d-flex flex-wrap p-0 mb-4 ml-3 ml-lg-0">
                 {palette.colors && palette.colors.map(color =>
                     <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5} />
                 )}
-            </Container>
-        </Container>
+            </div>
+        </Container >
     );
 }
 
