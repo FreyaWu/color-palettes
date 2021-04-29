@@ -27,9 +27,9 @@ const ColorDiv = styled.div`
 const ColorBoxOverlay = styled.div`
     opacity: 0;
     transition: opacity 0.3s ease;
-    overflow: hidden;
+    overflow: auto;
     width: 100%;
-    height: 100%;
+    height: 100%
 `;
 
 const ColorBoxContainer = styled.div`
@@ -49,7 +49,11 @@ const ColorBox = styled.div`
 const AddColorButton = styled(Button)`
     width: 10%;
     height: 7vw;
-    font-size: 5vw;
+    font-size: 4vw;
+`;
+
+const DeleteColorButton = styled(Button)`
+    font-size: 1.5vw;
 `;
 
 function BuildPage() {
@@ -168,13 +172,13 @@ function BuildPage() {
                                 >
                                     {cIdx !== colorIndex &&
                                         <ColorBoxOverlay className="d-flex justify-content-center">
-                                            <Button
+                                            <DeleteColorButton
                                                 className="my-auto"
                                                 variant="dark"
                                                 onClick={(e) => handleDeleteColor(e, cIdx)}//added e
                                             >
                                                 X
-                                                </Button>
+                                                </DeleteColorButton>
                                         </ColorBoxOverlay>
                                     }
                                 </ColorBox>
