@@ -52,10 +52,10 @@ function RegisterPage() {
 
     return (
         <Container fluid>
-            <Row className="justify-content-center mt-2 mt-sm-5">
+            <Row className="justify-content-center mt-2 mt-md-3 mt-xl-5">
                 <Col className="col-12 col-md-6 mt-2 mt-sm-5">
                     <div className="text-center py-3">
-                        <h2>Sign up to Color Palette</h2>
+                        <h3>Sign up to Color Palette</h3>
                     </div>
                     <Formik
                         validationSchema={schema}

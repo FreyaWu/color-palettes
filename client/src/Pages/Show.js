@@ -91,7 +91,7 @@ function ShowPage() {
             fetchViews();
         }
         return () => { mounted = false }
-    }, [paletteId])
+    }, [paletteId, isLiked])
 
     const renderColorDiv = (
         <Container fluid className="d-flex p-0 bg-white">
