@@ -26,7 +26,7 @@ function PaletteGalleryPage() {
     }, []);
 
     return (
-        <Container fluid>
+        <Container fluid className="mt-4">
             <MessageAlert />
             <PalettesContainer className="px-sm-4">
                 {palettes.map(palette => (

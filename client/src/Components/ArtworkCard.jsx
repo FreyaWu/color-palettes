@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../Reducers/auth';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import LikeButton from './LikeButton';
-import { HeartFill } from "react-bootstrap-icons";
+import { LikeButton } from './PaletteCard';
+import { Heart, HeartFill, EyeFill } from "react-bootstrap-icons";
 
-import ArtworkService from '../Services/artwork';
 import LikeService from '../Services/like';
+import PaletteService from '../Services/palette';
 
 const CardImage = styled(Card.Img)`
     height: 270px;
     object-fit: cover;
-`;
-
-const PaletteContainer = styled.div`
-    display: flex;
 `;
 
 const ColorSpan = styled.span`
@@ -27,56 +23,91 @@ const ColorSpan = styled.span`
     background-color: ${props => props.color};
 `;
 
+function ArtworkCard({
+    _id,
+    colors,
+    author,
+    image,
+    views,
+}) {
+    const { user } = useSelector(selectAuth);
+    const [isLiked, setIsLiked] = useState(false);
+    const [numLikes, setNumLikes] = useState(0);
 
-function ArtworkCard({ artwork }) {
-    const [likes, setLikes] = useState(0);
-    const colors = artwork.colors;
-    console.log(artwork);
+    const fetchNumLikes = async () => {
+        try {
+            const { data: likes } = await LikeService.getLikes(_id);
+            setNumLikes(likes);
+        } catch (e) {
+            // throw Error(e);
+            console.log(e);
+        }
+    }
 
-    const fetchLikes = async () => {
-        const { data: likes } = await LikeService.getLikes(artwork._id);
-        setLikes(likes);
+    const fetchIsLiked = async () => {
+        if (!user.username) {
+            setIsLiked(false);
+            return;
+        }
+        try {
+            const { data: isLiked } = await LikeService.doesLikeExist(_id);
+            setIsLiked(isLiked);
+        } catch (e) {
+            // throw Error(e);
+            console.log(e);
+        }
     }
 
     useEffect(() => {
-        fetchLikes();
-    }, [artwork._id])
+        fetchIsLiked();
+        fetchNumLikes();
+    }, [_id, user]);
 
-    const addLike = async () => {
-        await LikeService.postLike(artwork._id);
-        fetchLikes();
+    const handleClickLike = async () => {
+        if (!user.username) return;
+        try {
+            if (isLiked) {
+                await LikeService.deleteLike(_id);
+            } else {
+                await LikeService.postLike(_id);
+            }
+            fetchIsLiked();
+            fetchNumLikes();
+        } catch (e) {
+            throw Error(e);
+        }
     };
 
     return (
-        <Card className="border-0">
+        <Card>
             <Link
-                key={artwork._id}
+                key={_id}
                 to={{
-                    pathname: `/palettes/${artwork._id}`
+                    pathname: `/palettes/${_id}`
                 }}
             >
                 <CardImage
-                    src={artwork.image}
+                    src={image}
                 />
-                {/* <CardImageContainer className="position-relative">
-
-                    <CardOverlay >
-                        <Card.Subtitle className="mb-2 text-muted ">Card Subtitle</Card.Subtitle>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                    </CardOverlay>
-                </CardImageContainer> */}
-                <PaletteContainer>
+                <div className="d-flex">
                     {colors.map(color => <ColorSpan key={color} color={color} colorSize={colors.length} />)}
-                </PaletteContainer>
+                </div>
             </Link>
-            <Card.Footer className="d-flex border rounded-bottom bg-white">
-                <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>
-                <div className="d-flex ml-auto align-items-center">
-                    <HeartFill onClick={addLike} variant="transparent" className="mr-1" />
-                    <div className="">{likes}</div>
+            <Card.Footer className="d-flex bg-white">
+                <h6 className="m-0 align-items-center">by {author.username}</h6>
+                <div className="d-flex ml-auto">
+                    <LikeButton isLiked={isLiked} isLoggedIn={user.username} onClick={handleClickLike}>
+                        {user.username ?
+                            (isLiked ? <HeartFill className="mr-1" /> :
+                                <Heart className="mr-1" />) :
+                            <HeartFill className="mr-1" />
+                        }
+                        {numLikes}
+                    </LikeButton>
+                    <div className="d-flex ml-2 align-items-center">
+                        <EyeFill variant="transparent" className="mr-1" />
+                        <div>{views}</div>
+                    </div>
                 </div>
             </Card.Footer>
         </Card>

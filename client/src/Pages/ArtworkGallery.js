@@ -10,7 +10,7 @@ import MessageAlert from '../Components/MessageAlert';
 
 const ArtworksContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(336px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     grid-gap: 20px;
 `;
 
@@ -28,12 +28,12 @@ function ArtworkGalleryPage() {
     }, []);
 
     return (
-        <Container fluid>
+        <Container fluid className="mt-4">
             <MessageAlert />
             <ArtworksContainer className="px-sm-4">
                 {
                     artworks.map((artwork) => (
-                        artwork.image && <ArtworkCard key={artwork._id} artwork={artwork} />
+                        <ArtworkCard key={artwork._id} {...artwork} />
                     ))
                 }
             </ArtworksContainer>

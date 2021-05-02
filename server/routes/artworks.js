@@ -4,7 +4,7 @@ const { model } = require('mongoose');
 const Palette = model('Palette'); //same with const Artwork = require('./models/artwork');
 
 artworksRouter.get('/', async (req, res) => {
-    const artworks = await Palette.find({}).populate('author');//find all palettes' artwork
+    const artworks = await Palette.find({ image: { $ne: "" } }).populate('author');//find all palettes' artwork
     res.send(artworks);
 });
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';// hook, subscribe the component to store
 import { selectAuth } from '../Reducers/auth';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import { device } from '../device';
@@ -11,7 +11,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
-import { Plus, Dash, Clipboard } from 'react-bootstrap-icons';
+import { Plus, Dash } from 'react-bootstrap-icons';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import { setMessage } from '../Actions/message';
 import PaletteService from '../Services/palette';
@@ -19,7 +19,7 @@ import PaletteService from '../Services/palette';
 import MessageAlert from '../Components/MessageAlert';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
-const ColorDiv = styled.div`
+export const ColorDiv = styled.div`
     display: flex;
     flex: 1;
     width: calc(100% / ${props => props.colorSize});
@@ -30,9 +30,9 @@ const ColorDiv = styled.div`
         height: 30vh;
     }
 `
-const ColorBoxContainer = styled.div`
+export const ColorBoxContainer = styled.div`
     width: 100%;
-    height: 3rem;
+    height: 2.5rem;
     cursor: pointer;
 
     @media ${device.tablet} {
@@ -48,25 +48,25 @@ const ColorBoxContainer = styled.div`
     }
 `;
 
-const ColorBox = styled.div`
+export const ColorBox = styled.div`
     width: 99%;
     height: 99%;
 `;
 
-const ColorCol = styled(Col)`
+export const ColorCol = styled(Col)`
     @media ${device.tablet} {
         flex: 0 0 10%;
     }
 `
 
-const ImagePreviewContainer = styled(Container)`
+export const ImagePreviewContainer = styled(Container)`
     border-radius: 8px;
     border: dashed 2px #ccc;
     min-height: 10vh;
     padding: 0px;
 `;
 
-const PreviewImage = styled(Image)`
+export const PreviewImage = styled(Image)`
     border-radius: 8px;
     width: 100%;
     height: 100%;
@@ -151,7 +151,6 @@ function BuildPage() {
                         </Form.Group>
                     </div>
                 </Form>
-
             </Container>
             <ImagePreviewContainer className="d-flex flex-column flex-wrap justify-content-center align-content-center">
                 {image ?
@@ -171,7 +170,7 @@ function BuildPage() {
 
     return (
         <>
-            <Container fluid className="bg-light px-0 pb-5">
+            <Container fluid className="bg-light px-0 mb-4">
                 <ColorDiv color={getCurrentColor().toRgbString()} />
 
                 <Container className="justify-content-center">
@@ -187,9 +186,9 @@ function BuildPage() {
                 <Container className="d-flex">
                     <div className="font-weight-bold">Colors</div>
                     <div className="ml-auto d-flex">
-                        <Plus size={20} style={{ cursor: "pointer" }} onClick={handleAddColor} />
+                        <Plus size={25} style={{ cursor: "pointer" }} onClick={handleAddColor} />
                         {colors.length > 1 &&
-                            <Dash size={20} style={{ cursor: "pointer" }} onClick={(e) => handleDeleteColor(e, currentColor)} />
+                            <Dash size={25} style={{ cursor: "pointer" }} onClick={(e) => handleDeleteColor(e, currentColor)} />
                         }
                     </div>
                 </Container>
@@ -220,4 +219,3 @@ function BuildPage() {
 }
 
 export default withHeaderFooter(BuildPage);
-
