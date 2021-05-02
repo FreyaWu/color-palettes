@@ -102,16 +102,16 @@ function ShowPage() {
     )
 
     const renderImage = (
-        <Container fluid className="d-flex justify-content-center bg-white p-0">
+        <Container fluid className="d-flex justify-content-center p-0">
             <Image
                 fluid
-                className="mx-auto"
                 src={palette.image}
-                className="d-flex"
+                style={{ width: "100%", objectFit: "contain", alignSelf: "start" }}
             >
             </Image>
         </Container >
     )
+
     return (
         <Container>
             <MessageAlert />

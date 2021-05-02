@@ -14,9 +14,9 @@ const Column = styled(Col)`
 
 function HomePage() {
     return (
-        <Container fluid className="h-100">
+        <Container fluid className="d-flex flex-grow-1">
             <MessageAlert />
-            <Row className="h-100">
+            <Row className="flex-grow-1">
                 <Column color={"#F299E3"} className="d-flex col-12 col-md-4">
                     <div className="align-self-center mx-auto text-center">
                         <h1>Palette</h1>
