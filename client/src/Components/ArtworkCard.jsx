@@ -10,39 +10,8 @@ import { HeartFill } from "react-bootstrap-icons";
 import ArtworkService from '../Services/artwork';
 import LikeService from '../Services/like';
 
-const CardOverlay = styled(Card.ImgOverlay)`
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    background: linear-gradient(
-        180deg,
-        transparent 62%,
-        rgba(0, 0, 0, 0.00345888) 63.94%,
-        rgba(0, 0, 0, 0.014204) 65.89%,
-        rgba(0, 0, 0, 0.0326639) 67.83%,
-        rgba(0, 0, 0, 0.0589645) 69.78%,
-        rgba(0, 0, 0, 0.0927099) 71.72%,
-        rgba(0, 0, 0, 0.132754) 73.67%,
-        rgba(0, 0, 0, 0.177076) 75.61%,
-        rgba(0, 0, 0, 0.222924) 77.56%,
-        rgba(0, 0, 0, 0.267246) 79.5%,
-        rgba(0, 0, 0, 0.30729) 81.44%,
-        rgba(0, 0, 0, 0.341035) 83.39%,
-        rgba(0, 0, 0, 0.367336) 85.33%,
-        rgba(0, 0, 0, 0.385796) 87.28%,
-        rgba(0, 0, 0, 0.396541) 89.22%,
-        rgba(0, 0, 0, 0.4) 91.17%
-    );
-`;
-
-const CardImageContainer = styled.div`
-    &:hover ${CardOverlay} {
-        opacity: 1;
-    }
-`;
-
 const CardImage = styled(Card.Img)`
-    height: 18vw;
-    min-height: 270px;
+    height: 270px;
     object-fit: cover;
 `;
 
@@ -86,12 +55,11 @@ function ArtworkCard({ artwork }) {
                     pathname: `/palettes/${artwork._id}`
                 }}
             >
-                <CardImageContainer className="position-relative">
-                    <CardImage
-                        className="img-fluid"
-                        variant="top"
-                        src={artwork.image}
-                    />
+                <CardImage
+                    src={artwork.image}
+                />
+                {/* <CardImageContainer className="position-relative">
+
                     <CardOverlay >
                         <Card.Subtitle className="mb-2 text-muted ">Card Subtitle</Card.Subtitle>
                         <Card.Text>
@@ -99,13 +67,10 @@ function ArtworkCard({ artwork }) {
                             the card's content.
                         </Card.Text>
                     </CardOverlay>
-                </CardImageContainer>
+                </CardImageContainer> */}
                 <PaletteContainer>
                     {colors.map(color => <ColorSpan key={color} color={color} colorSize={colors.length} />)}
                 </PaletteContainer>
-                {/* <Card.Body>
-                <p>test</p>
-            </Card.Body> */}
             </Link>
             <Card.Footer className="d-flex border rounded-bottom bg-white">
                 <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>

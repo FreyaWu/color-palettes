@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 import { Link, useLocation, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -9,14 +8,13 @@ import Col from 'react-bootstrap/Col';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { PaletteFill, HeartFill } from 'react-bootstrap-icons';
-import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
+
 import PaletteCard from '../Components/PaletteCard';
-import UserService from '../Services/user';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
-import { TabletLandscape } from 'react-bootstrap-icons';
-import palette from '../Services/palette';
+
+import UserService from '../Services/user';
 
 function Profile() {
     const { user } = useSelector(selectAuth);
@@ -41,7 +39,7 @@ function Profile() {
     }, [user, likedPalettes]);
 
     return (
-        <Container fluid>
+        <>
             <Container className="my-3">
                 <h3>{user.username}'s profile</h3>
             </Container>
@@ -89,7 +87,7 @@ function Profile() {
                     </Tab>
                 </Tabs>
             </Container>
-        </Container>
+        </>
     );
 }
 

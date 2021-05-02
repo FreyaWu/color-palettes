@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import style from 'styled-components';
+import ColorPointer from './ColorPointer';
 
 const SaturationContainer = style.div`
     width: 100%;
@@ -36,7 +37,7 @@ function MyPicker({
         <Container fluid>
             <Row className="my-4">
                 <Col xs={12} md className="mr-md-2 mb-2 mb-sm-0">
-                    <SaturationContainer style={{ height: "10rem" }}>
+                    <SaturationContainer style={{ height: "10rem", overflow: "hidden", touchAction: "none" }}>
                         <Saturation
                             hsl={hsl}
                             hsv={hsv}
@@ -46,19 +47,21 @@ function MyPicker({
                 </Col>
                 <Col xs={12} md className="ml-md-2">
                     <Row className="mb-3">
-                        <HueContainer>
+                        <HueContainer style={{ touchAction: "none" }}>
                             <Hue
                                 hsl={hsl}
                                 onChange={onChange}
+                                pointer={ColorPointer}
                             />
                         </HueContainer>
                     </Row>
                     <Row className="my-3">
-                        <AlphaContainer>
+                        <AlphaContainer style={{ touchAction: "none" }}>
                             <Alpha
                                 rgb={rgb}
                                 hsl={hsl}
                                 onChange={onChange}
+                                pointer={ColorPointer}
                             />
                         </AlphaContainer>
                     </Row>

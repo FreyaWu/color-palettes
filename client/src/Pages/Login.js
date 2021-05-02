@@ -8,13 +8,13 @@ import Button from 'react-bootstrap/Button';
 import { login } from '../Actions/auth';
 import { selectAuth } from '../Reducers/auth';
 import { setMessage } from '../Actions/message'
-import MessageAlert from '../Components/MessageAlert';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from "react-router-dom";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import withHeaderFooter from '../Hocs/withHeaderFooter';
 
+import MessageAlert from '../Components/MessageAlert';
+import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const FormContainer = styled(Form)`
     background:#f7f7f7;
@@ -54,11 +54,11 @@ function LoginPage() {
     return (
         <Container fluid>
             <MessageAlert />
-            <Row className="justify-content-center mt-2 mt-sm-5">
-                <Col className="col-12 col-md-6 mt-2 mt-sm-5">
-                    <div className="text-center py-3">
-                        <h3>Sign in to Color Palette</h3>
-                    </div>
+            <div className="text-center py-3">
+                <h3>Sign in to Color Palette</h3>
+            </div>
+            <Row className="justify-content-center mt-2 mt-md-3">
+                <Col className="col-12 col-md-6 mt-2 mt-sm-5 px-0">
                     <Formik
                         validationSchema={schema}
                         onSubmit={(values) => { handleSubmit(values) }}
@@ -74,7 +74,6 @@ function LoginPage() {
                             errors,
                         }) => (
                             <FormContainer onSubmit={handleSubmit} className="d-flex p-5">
-
                                 <div className="w-100">
                                     <Form.Group controlId="username">
                                         <Form.Label>Username</Form.Label>
@@ -112,8 +111,6 @@ function LoginPage() {
                     </Formik>
                 </Col>
             </Row>
-
-
         </Container>
     );
 }

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
@@ -12,10 +11,10 @@ import styled from 'styled-components';
 import ColorCard from '../Components/ColorCard';
 import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
-import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
 import { HeartFill, TrashFill, EyeFill, PencilSquare, Link45deg } from 'react-bootstrap-icons';
-import artwork from '../Services/artwork';
+
+import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -34,7 +33,6 @@ function ShowPage() {
     const fetchViews = async () => {
         const { data: views } = await PaletteService.getPaletteViews(paletteId);
         setViews(views + 1);
-        const newViews = await PaletteService.updatePaletteViews(paletteId, views + 1);
     }
 
 
@@ -84,13 +82,9 @@ function ShowPage() {
     }
 
     useEffect(() => {
-        let mounted = true;
-        if (mounted) {
-            fetchPalette();
-            fetchIsLiked();
-            fetchViews();
-        }
-        return () => { mounted = false }
+        fetchPalette();
+        fetchIsLiked();
+        fetchViews();
     }, [paletteId])
 
     const renderColorDiv = (
@@ -102,18 +96,17 @@ function ShowPage() {
     )
 
     const renderImage = (
-        <Container fluid className="d-flex justify-content-center bg-white p-0">
+        <Container fluid>
             <Image
                 fluid
-                className="mx-auto"
+                className="mx-auto d-flex"
                 src={palette.image}
-                className="d-flex"
             >
             </Image>
         </Container >
     )
     return (
-        <Container>
+        <>
             <MessageAlert />
             <Row>
                 {palette.image === "" ? renderColorDiv : renderImage}
@@ -155,7 +148,7 @@ function ShowPage() {
                     <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5} />
                 )}
             </div>
-        </Container >
+        </>
     );
 }
 

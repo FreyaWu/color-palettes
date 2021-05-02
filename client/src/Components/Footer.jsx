@@ -3,12 +3,10 @@ import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
     width: 100%;
-    margin-top: auto;
-    flex-shrink: 0;
 `;
 function Footer() {
     return (
-        <FooterContainer className="bg-dark text-light text-center">
+        <FooterContainer className="mt-auto bg-dark text-light text-center">
             <div>
                 <span className="text">&copy; Color Palettes {new Date().getFullYear()}</span>
             </div>

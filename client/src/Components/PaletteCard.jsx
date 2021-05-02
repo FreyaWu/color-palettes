@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';//这个link是干什么用的？
 import { useSelector } from 'react-redux';
 import { selectAuth } from '../Reducers/auth';
-import axios from 'axios';
-import Container from 'react-bootstrap/Container'
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import { Heart, HeartFill, Eye, EyeFill } from "react-bootstrap-icons";
+import { Heart, HeartFill, EyeFill } from "react-bootstrap-icons";
 import styled from 'styled-components';
 import LikeService from '../Services/like';
 import PaletteService from '../Services/palette';
 
 const ColorSpan = styled.div`
-    display: inline-block;
     flex: 1;
     width: calc(100% / ${props => props.colorSize});
     height: 4em;

@@ -5,15 +5,13 @@ import { selectAuth } from '../Reducers/auth';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
+import PaletteService from '../Services/palette';
+
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
-import PaletteService from '../Services/palette';
-import axios from 'axios';
-
 
 const ColorDiv = styled.div`
     display: flex;
@@ -54,7 +52,7 @@ const DeleteColorButton = styled(Button)`
     font-size: 1.5vw;
 `;
 
-function BuildPage() {
+function EditPage() {
     const { user } = useSelector(selectAuth);
     const { paletteId } = useParams();
     const [palette, setPalette] = useState([]);
@@ -155,57 +153,55 @@ function BuildPage() {
 
     return (
         <>
-            <Container fluid className="bg-light px-0 pb-5">
-                < ColorDiv color={currentColor().toRgbString()} />
-                <Container>
-                    <ColorPicker
-                        className="p-2"
-                        color={currentColor().toRgb()}
-                        onChange={handleColorChange}
-                    />
-                </Container>
-                <Container className="border bg-white px-0">
-                    <div className="d-flex">
-                        {colors.map((color, cIdx) => (
-                            <ColorBoxContainer
-                                className="rounded d-flex justify-content-center"
-                                key={cIdx}
-                                style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
-                                onClick={() => handleSelectColorBox(cIdx)}
-                            >
-                                <ColorBox
-                                    className="my-auto rounded"
-                                    style={{ backgroundColor: color.toRgbString() }}
-                                >
-                                    {cIdx !== colorIndex &&
-                                        <ColorBoxOverlay className="d-flex justify-content-center">
-                                            <DeleteColorButton
-                                                className="my-auto"
-                                                variant="dark"
-                                                onClick={(e) => handleDeleteColor(e, cIdx)}//added e
-                                            >
-                                                X
-                                                </DeleteColorButton>
-                                        </ColorBoxOverlay>
-                                    }
-                                </ColorBox>
-                            </ColorBoxContainer>
-                        ))}
-                        {colors.length < 10 &&
-                            <AddColorButton
-                                className="border text-center border-0 rounded p-0"
-                                variant="light"
-                                onClick={handleAddColor}
-                            >
-                                +
-                            </AddColorButton>
-                        }
-                    </div>
-                </Container>
-                {user && renderLoggedIn}
+            <ColorDiv color={currentColor().toRgbString()} />
+            <Container>
+                <ColorPicker
+                    className="p-2"
+                    color={currentColor().toRgb()}
+                    onChange={handleColorChange}
+                />
             </Container>
+            <Container className="border bg-white px-0">
+                <div className="d-flex">
+                    {colors.map((color, cIdx) => (
+                        <ColorBoxContainer
+                            className="rounded d-flex justify-content-center"
+                            key={cIdx}
+                            style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
+                            onClick={() => handleSelectColorBox(cIdx)}
+                        >
+                            <ColorBox
+                                className="my-auto rounded"
+                                style={{ backgroundColor: color.toRgbString() }}
+                            >
+                                {cIdx !== colorIndex &&
+                                    <ColorBoxOverlay className="d-flex justify-content-center">
+                                        <DeleteColorButton
+                                            className="my-auto"
+                                            variant="dark"
+                                            onClick={(e) => handleDeleteColor(e, cIdx)}//added e
+                                        >
+                                            X
+                                                </DeleteColorButton>
+                                    </ColorBoxOverlay>
+                                }
+                            </ColorBox>
+                        </ColorBoxContainer>
+                    ))}
+                    {colors.length < 10 &&
+                        <AddColorButton
+                            className="border text-center border-0 rounded p-0"
+                            variant="light"
+                            onClick={handleAddColor}
+                        >
+                            +
+                            </AddColorButton>
+                    }
+                </div>
+            </Container>
+            {user && renderLoggedIn}
         </>
     );
 }
 
-export default withHeaderFooter(BuildPage);
+export default withHeaderFooter(EditPage);

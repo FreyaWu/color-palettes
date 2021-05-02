@@ -1,13 +1,10 @@
 import React from 'react';
-import { EditableInput } from 'react-color/lib/components/common'
-// import colorUtil from '../../utils/color';
-import styled, { isStyledComponent } from 'styled-components';
+import { EditableInput } from 'react-color/lib/components/common';
+import styled from 'styled-components';
 import colorUtil from '../../utils/color';
 
 const SingleWeightInput = styled.div`
     flex: 1;
-    padding-left: 6px;
-    
 `;
 
 const DoubleWeightInput = styled.div`

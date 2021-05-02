@@ -1,13 +1,11 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { selectAuth } from '../Reducers/auth';
 import { logout } from '../Actions/auth';
 
@@ -71,7 +69,7 @@ function Header() {
                     <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
                     <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
-                    {user && <NavlinkContainer href="/profile">My page</NavlinkContainer>}
+                    {user && <NavlinkContainer href="/profile">My Page</NavlinkContainer>}
                 </Nav>
                 {user ? renderLoggedIn : renderLoggedOut}
             </Navbar.Collapse>

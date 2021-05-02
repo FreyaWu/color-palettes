@@ -53,7 +53,7 @@ function RegisterPage() {
     return (
         <Container fluid>
             <Row className="justify-content-center mt-2 mt-sm-5">
-                <Col className="col-12 col-md-6 mt-2 mt-sm-5">
+                <Col className="col-12 col-md-6 mt-2 mt-sm-5 px-0">
                     <div className="text-center py-3">
                         <h2>Sign up to Color Palette</h2>
                     </div>

@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import Container from 'react-bootstrap/Container';
 import PaletteCard from '../Components/PaletteCard';
 import PaletteService from '../Services/palette';
 import MessageAlert from '../Components/MessageAlert';
-
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const PalettesContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(336px, 1fr));
     grid-gap: 20px;
 `;
 
 function PaletteGalleryPage() {
     const [palettes, setPalettes] = useState([]);
-    // console.log('palette gallery');
 
     useEffect(() => {
         let mounted = true;
@@ -28,10 +24,11 @@ function PaletteGalleryPage() {
         fetchPalettes();
         return () => (mounted = false);
     }, []);
+
     return (
-        <Container fluid className="mt-4">
+        <Container fluid>
             <MessageAlert />
-            <PalettesContainer className="px-4 card-deck">
+            <PalettesContainer className="px-sm-4">
                 {palettes.map(palette => (
                     <PaletteCard key={palette._id} {...palette} />
                 ))}

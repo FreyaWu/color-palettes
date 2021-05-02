@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';// hook, subscribe the component to store
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';// hook, subscribe the component to store
 import { selectAuth } from '../Reducers/auth';
+import { useLocation, useHistory } from 'react-router-dom';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
+import { device } from '../device';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
+import { Plus, Dash, Clipboard } from 'react-bootstrap-icons';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import { setMessage } from '../Actions/message';
-import withHeaderFooter from '../Hocs/withHeaderFooter';
 import PaletteService from '../Services/palette';
-import MessageAlert from '../Components/MessageAlert';
 
+import MessageAlert from '../Components/MessageAlert';
+import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 const ColorDiv = styled.div`
     display: flex;
@@ -23,80 +25,103 @@ const ColorDiv = styled.div`
     width: calc(100% / ${props => props.colorSize});
     height: 25vh;
     background-color: ${props => props.color};
+
+    @media ${device.tablet} {
+        height: 30vh;
+    }
 `
-const ColorBoxOverlay = styled.div`
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    overflow: auto;
-    width: 100%;
-    height: 100%
-`;
-
 const ColorBoxContainer = styled.div`
-    width: 10%;
-    height: 7vw;
+    width: 100%;
+    height: 3rem;
     cursor: pointer;
-`;
 
-const ColorBox = styled.div`
-    width: 95%;
-    height: 95%;
-    &:hover ${ColorBoxOverlay} {
-        opacity: 0.8;
+    @media ${device.tablet} {
+        height: 4.5rem;
+    }
+
+    @media ${device.laptop} {
+        height: 5.5rem;
+    }
+
+    @media ${device.laptopL} {
+        height: 6.5rem;
     }
 `;
 
-const AddColorButton = styled(Button)`
-    width: 10%;
-    height: 7vw;
-    font-size: 4vw;
+const ColorBox = styled.div`
+    width: 99%;
+    height: 99%;
 `;
 
-const DeleteColorButton = styled(Button)`
-    font-size: 1.5vw;
+const ColorCol = styled(Col)`
+    @media ${device.tablet} {
+        flex: 0 0 10%;
+    }
+`
+
+const ImagePreviewContainer = styled(Container)`
+    border-radius: 8px;
+    border: dashed 2px #ccc;
+    min-height: 10vh;
+    padding: 0px;
+`;
+
+const PreviewImage = styled(Image)`
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 `;
 
 function BuildPage() {
     const { user } = useSelector(selectAuth);
+    const dispatch = useDispatch();
     const [colors, setColors] = useState([tinyColor.random()]);
-    const [colorIndex, setColorIndex] = useState(0);
+    const [currentColor, setCurrentColor] = useState(0);
     const [image, setImage] = useState("");
     const history = useHistory();
 
-    const currentColor = () => {
-        return colors[colorIndex];
+    useEffect(() => {
+        document.body.classList.add('bg-light');
+    }, []);
+
+    const getCurrentColor = () => {
+        return colors[currentColor];
     }
 
     const handleSelectColorBox = index => {
-        setColorIndex(index);
+        setCurrentColor(index);
     }
 
     const handleColorChange = color => {
         setColors([
-            ...colors.slice(0, colorIndex),
+            ...colors.slice(0, currentColor),
             tinyColor(color.rgb),
-            ...colors.slice(colorIndex + 1)
+            ...colors.slice(currentColor + 1)
         ])
     }
 
     const handleDeleteColor = (e, index) => {
-        e.stopPropagation();//
-        setColors(colors.filter((_, idx) => idx != index));
-        if (colorIndex > index) {
-            setColorIndex(colorIndex - 1);
+        if (index === colors.length - 1) {
+            setCurrentColor(colors.length - 2);
         }
+        setColors(colors.filter((_, idx) => idx !== index));
     }
 
-    const handleAddColor = index => {
-        if (colorIndex === 9) return;
+    const handleAddColor = () => {
+        if (currentColor === 9) {
+            dispatch(setMessage("danger", "Maximum 10 colors."));
+            return;
+        }
         for (let i = 0; i < colors.length; i++) {
-            if (i === colorIndex) continue;
-            if (colors[i] === colors[colorIndex]) {
+            if (i === currentColor) continue;
+            if (colors[i] === getCurrentColor()) {
+                dispatch(setMessage("danger", `Color ${getCurrentColor().toHex8String()} already exits.`));
                 return;
             }
         }
-        setColors([...colors, currentColor()]);
-        setColorIndex(colors.length);
+        setColors([...colors, getCurrentColor()]);
+        setCurrentColor(colors.length);
     }
 
     const handleImageChange = e => {
@@ -106,18 +131,19 @@ function BuildPage() {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        const colorArray = colors.map(color => color.toRgbString())
-        // console.log(colorArray);
+        const colorArray = colors.map(color => color.toRgbString());
         await PaletteService.savePalette(colorArray, image);
         history.replace('/palettes');
     }
 
     const renderLoggedIn = (
         <>
-            <Container className="my-1 p-0">
-                <div className="text-center font-weight-bold mb-1">
+            <Container className="my-sm-1">
+                <div className="font-weight-bold mb-1">
                     Artwork
                 </div>
+            </Container>
+            <Container className="p-0">
                 <Form>
                     <div className="mb-3">
                         <Form.Group controlId="onlineImage" className="d-flex">
@@ -127,15 +153,15 @@ function BuildPage() {
                 </Form>
 
             </Container>
-            <Container className="pb-3">
-                {image !== "" &&
-                    <div className="text-center font-weight-bold pb-2">
-                        Preview
+            <ImagePreviewContainer className="d-flex flex-column flex-wrap justify-content-center align-content-center">
+                {image ?
+                    <PreviewImage src={image} /> :
+                    <div className="text-muted">
+                        <h2>Preview</h2>
                     </div>
                 }
-                <Image src={image} fluid />
-            </Container>
-            <Container>
+            </ImagePreviewContainer>
+            <Container className="mt-3">
                 <Button variant="dark" type="submit" block onClick={handleSubmit}>
                     Upload
                 </Button>
@@ -145,55 +171,47 @@ function BuildPage() {
 
     return (
         <>
-            {user && <MessageAlert />}
-            <Container fluid className="bg-light px-0 pb-5 h-100">
-                <ColorDiv color={currentColor().toRgbString()} />
+            <Container fluid className="bg-light px-0 pb-5">
+                <ColorDiv color={getCurrentColor().toRgbString()} />
 
                 <Container className="justify-content-center">
                     <ColorPicker
                         className="p-2"
-                        color={currentColor().toRgb()}
+                        color={getCurrentColor().toRgb()}
                         onChange={handleColorChange}
                     />
                 </Container>
 
-                <Container className="border bg-white px-0">
-                    <div className="d-flex">
-                        {colors.map((color, cIdx) => (
-                            <ColorBoxContainer
-                                className="rounded d-flex justify-content-center"
-                                key={cIdx}
-                                style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
-                                onClick={() => handleSelectColorBox(cIdx)}
-                            >
-                                <ColorBox
-                                    className="my-auto rounded"
-                                    style={{ backgroundColor: color.toRgbString() }}
-                                >
-                                    {cIdx !== colorIndex &&
-                                        <ColorBoxOverlay className="d-flex justify-content-center">
-                                            <DeleteColorButton
-                                                className="my-auto"
-                                                variant="dark"
-                                                onClick={(e) => handleDeleteColor(e, cIdx)}//added e
-                                            >
-                                                X
-                                                </DeleteColorButton>
-                                        </ColorBoxOverlay>
-                                    }
-                                </ColorBox>
-                            </ColorBoxContainer>
-                        ))}
-                        {colors.length < 10 &&
-                            <AddColorButton
-                                className="border text-center border-0 rounded p-0"
-                                variant="light"
-                                onClick={handleAddColor}
-                            >
-                                +
-                            </AddColorButton>
+                <MessageAlert />
+
+                <Container className="d-flex">
+                    <div className="font-weight-bold">Colors</div>
+                    <div className="ml-auto d-flex">
+                        <Plus size={20} style={{ cursor: "pointer" }} onClick={handleAddColor} />
+                        {colors.length > 1 &&
+                            <Dash size={20} style={{ cursor: "pointer" }} onClick={(e) => handleDeleteColor(e, currentColor)} />
                         }
                     </div>
+                </Container>
+
+                <Container className="border bg-white">
+                    <Row>
+                        {colors.map((color, index) => (
+                            <ColorCol className="p-0">
+                                <ColorBoxContainer
+                                    className="rounded d-flex justify-content-center"
+                                    key={index}
+                                    style={{ borderStyle: index === currentColor ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
+                                    onClick={() => handleSelectColorBox(index)}
+                                >
+                                    <ColorBox
+                                        className="my-auto rounded"
+                                        style={{ backgroundColor: color.toRgbString() }}
+                                    />
+                                </ColorBoxContainer>
+                            </ColorCol>
+                        ))}
+                    </Row>
                 </Container>
                 {user && renderLoggedIn}
             </Container>
