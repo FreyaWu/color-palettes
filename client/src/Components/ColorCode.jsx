@@ -1,5 +1,4 @@
 import { React, useState } from 'react';
-import styled from 'styled-components';
 import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
@@ -34,7 +33,11 @@ function ColorCode({ content }) {
             delay={{ show: 250, hide: 400 }}
             overlay={show ? renderTooltip : renderNothing}
         >
-            <div style={{ cursor: "pointer" }} onClick={handleClickCode}>
+            <div
+                className="d-flex align-items-center justify-content-center"
+                style={{ cursor: "pointer" }}
+                onClick={handleClickCode}
+            >
                 {content}
             </div>
         </OverlayTrigger>

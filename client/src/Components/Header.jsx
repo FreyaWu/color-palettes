@@ -4,6 +4,8 @@ import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { selectAuth } from '../Reducers/auth';
@@ -37,7 +39,6 @@ function Header() {
     const { user } = useSelector(selectAuth);
     const dispatch = useDispatch();
     const location = useLocation();
-    // console.log(user);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -62,7 +63,16 @@ function Header() {
     )
     return (
         <NavbarContainer className="text-align-center" bg="light" expand="lg" sticky="top">
-            <NavbarBrand variant="dark" href="/">Color Palettes</NavbarBrand>
+            <div>
+                <NavbarBrand variant="dark" href="/" className="font-weight-bold">
+                    Color Palettes
+                </NavbarBrand>
+                <a
+                    className="pl-1"
+                    style={{ fontSize: "14px", color: "black" }}
+                    href="https://www.linkedin.com/in/freya-wu/">by Freya
+                </a>
+            </div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" >
                 <Nav className="ml-auto mr-auto">

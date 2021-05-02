@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import Footer from '../Components/Footer';
 
 
-export default function withHeaderFooter(Component, hasHeader = true, hasFooter = true) {
+export default function withHeaderFooter(Component, hasHeader = true, hasFooter = false) {
     return (props) => (
         <>
             {hasHeader && <Header />}

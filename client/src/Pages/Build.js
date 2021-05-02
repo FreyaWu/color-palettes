@@ -21,13 +21,12 @@ import withHeaderFooter from '../Hocs/withHeaderFooter';
 
 export const ColorDiv = styled.div`
     display: flex;
-    flex: 1;
-    width: calc(100% / ${props => props.colorSize});
+    flex: 1 1 10%;
     height: 25vh;
     background-color: ${props => props.color};
 
     @media ${device.tablet} {
-        height: 30vh;
+        height: 35vh;
     }
 `
 export const ColorBoxContainer = styled.div`
@@ -46,11 +45,6 @@ export const ColorBoxContainer = styled.div`
     @media ${device.laptopL} {
         height: 6.5rem;
     }
-`;
-
-export const ColorBox = styled.div`
-    width: 99%;
-    height: 99%;
 `;
 
 export const ColorCol = styled(Col)`
@@ -203,9 +197,12 @@ function BuildPage() {
                                     style={{ borderStyle: index === currentColor ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
                                     onClick={() => handleSelectColorBox(index)}
                                 >
-                                    <ColorBox
-                                        className="my-auto rounded"
-                                        style={{ backgroundColor: color.toRgbString() }}
+                                    <div
+                                        className="rounded w-100 h-100"
+                                        style={{
+                                            backgroundColor: color.toRgbString(),
+                                            border: "1px solid white"
+                                        }}
                                     />
                                 </ColorBoxContainer>
                             </ColorCol>

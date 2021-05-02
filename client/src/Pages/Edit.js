@@ -156,9 +156,12 @@ function EditPage() {
                                     style={{ borderStyle: index === currentColor ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
                                     onClick={() => handleSelectColorBox(index)}
                                 >
-                                    <ColorBox
-                                        className="my-auto rounded"
-                                        style={{ backgroundColor: color.toRgbString() }}
+                                    <div
+                                        className="rounded w-100 h-100"
+                                        style={{
+                                            backgroundColor: color.toRgbString(),
+                                            border: "1px solid white"
+                                        }}
                                     />
                                 </ColorBoxContainer>
                             </ColorCol>
