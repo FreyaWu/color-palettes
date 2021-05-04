@@ -62,7 +62,6 @@ const ColorSpan = styled.span`
 function ArtworkCard({ artwork }) {
     const [likes, setLikes] = useState(0);
     const colors = artwork.colors;
-    console.log(artwork);
 
     const fetchLikes = async () => {
         const { data: likes } = await LikeService.getLikes(artwork._id);
@@ -92,13 +91,13 @@ function ArtworkCard({ artwork }) {
                         variant="top"
                         src={artwork.image}
                     />
-                    <CardOverlay >
+                    {/* <CardOverlay >
                         <Card.Subtitle className="mb-2 text-muted ">Card Subtitle</Card.Subtitle>
                         <Card.Text>
                             Some quick example text to build on the card title and make up the bulk of
                             the card's content.
                         </Card.Text>
-                    </CardOverlay>
+                    </CardOverlay> */}
                 </CardImageContainer>
                 <PaletteContainer>
                     {colors.map(color => <ColorSpan key={color} color={color} colorSize={colors.length} />)}
