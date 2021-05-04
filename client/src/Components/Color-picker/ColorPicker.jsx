@@ -36,7 +36,7 @@ function MyPicker({
         <Container fluid>
             <Row className="my-4">
                 <Col xs={12} md className="mr-md-2 mb-2 mb-sm-0">
-                    <SaturationContainer style={{ height: "10rem" }}>
+                    <SaturationContainer style={{ height: "10rem", touchAction: "none" }}>
                         <Saturation
                             hsl={hsl}
                             hsv={hsv}
@@ -46,7 +46,7 @@ function MyPicker({
                 </Col>
                 <Col xs={12} md className="ml-md-2">
                     <Row className="mb-3">
-                        <HueContainer>
+                        <HueContainer className={{ touchAction: " none" }}>
                             <Hue
                                 hsl={hsl}
                                 onChange={onChange}
@@ -54,7 +54,7 @@ function MyPicker({
                         </HueContainer>
                     </Row>
                     <Row className="my-3">
-                        <AlphaContainer>
+                        <AlphaContainer className={{ touchAction: " none" }}>
                             <Alpha
                                 rgb={rgb}
                                 hsl={hsl}
@@ -72,7 +72,7 @@ function MyPicker({
                     </Row>
                 </Col>
             </Row>
-        </Container>
+        </Container >
     )
 }
 
