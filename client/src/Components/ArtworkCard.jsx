@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import LikeButton from './LikeButton';
-import { HeartFill } from "react-bootstrap-icons";
+import { HeartFill, EyeFill } from "react-bootstrap-icons";
 
-import ArtworkService from '../Services/artwork';
+import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 
 const CardOverlay = styled(Card.ImgOverlay)`
@@ -62,14 +62,21 @@ const ColorSpan = styled.span`
 function ArtworkCard({ artwork }) {
     const [likes, setLikes] = useState(0);
     const colors = artwork.colors;
+    const [views, setViews] = useState(artwork.views);
 
     const fetchLikes = async () => {
         const { data: likes } = await LikeService.getLikes(artwork._id);
         setLikes(likes);
     }
 
+    const fetchViews = async () => {
+        const { data: views } = await PaletteService.getPaletteViews(artwork._id);
+        setViews(views);
+    }
+
     useEffect(() => {
         fetchLikes();
+        fetchViews();
     }, [artwork._id])
 
     const addLike = async () => {
@@ -111,6 +118,10 @@ function ArtworkCard({ artwork }) {
                 <div className="d-flex ml-auto align-items-center">
                     <HeartFill onClick={addLike} variant="transparent" className="mr-1" />
                     <div className="">{likes}</div>
+                </div>
+                <div className="d-flex ml-2 align-items-center">
+                    <EyeFill variant="transparent" className="mr-1" />
+                    <div>{views}</div>
                 </div>
             </Card.Footer>
         </Card>
