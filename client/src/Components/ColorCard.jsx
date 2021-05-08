@@ -1,6 +1,7 @@
 import React from 'react';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
+import { device } from '../device';
 import ColorCode from './ColorCode';
 
 
@@ -10,26 +11,20 @@ const ColorBox = styled.div`
     background-color: ${props => props.color};
 `;
 
-// const ColorCodeOverlay = style.div`
-//     background-color: grey;
-//     transition: opacity 0.3s ease;
-//     overflow: auto;
-//     width: 100%;
-//     height: 100%
-// `;
+const ColorBoxContainer = styled.div`
+    flex: 0 0 50%;
 
-// const ColorCodeDiv = style(ColorCode)` 
-//     &:hover ${ColorCodeOverlay} {
-//         opacity: 0.8;
-//     }     
-// `;
+    @media ${device.tablet} {
+        flex: ${({ lessOrEqualToFive }) => lessOrEqualToFive ? "1 1 20%" : "0 0 20%"};
+    }
+`;
 
 function ColorCard(props) {
     const color = tinyColor(props.color);
-    const { addGrowShrink } = props;
+    const { lessOrEqualToFive } = props;
 
     return (
-        <div style={{ flex: addGrowShrink ? "1 1 20%" : "0 0 20%" }}>
+        <ColorBoxContainer lessOrEqualToFive={lessOrEqualToFive}>
             <div className="d-flex justify-content-center">
                 <ColorBox className="rounded-circle m-4" color={color} />
             </div>
@@ -45,7 +40,7 @@ function ColorCard(props) {
                     <ColorCode content={color.toHsvString()} />
                 </form>
             </div>
-        </div>
+        </ColorBoxContainer>
     );
 }
 

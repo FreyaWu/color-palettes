@@ -5,35 +5,25 @@ import { selectAuth } from '../Reducers/auth';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
+import { Plus, Dash } from 'react-bootstrap-icons';
 import ColorPicker from '../Components/Color-picker/ColorPicker';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import PaletteService from '../Services/palette';
+import { ColorDiv, ColorCol, ColorBoxContainer } from './Build';
 import axios from 'axios';
 
-
-const ColorDiv = styled.div`
-    display: flex;
-    flex: 1;
-    width: calc(100% / ${props => props.colorSize});
-    height: 25vh;
-    background-color: ${props => props.color};
-`
 const ColorBoxOverlay = styled.div`
     opacity: 0;
     transition: opacity 0.3s ease;
     overflow: hidden;
     width: 100%;
     height: 100%;
-`;
-
-const ColorBoxContainer = styled.div`
-    width: 10%;
-    height: 7vw;
-    cursor: pointer;
 `;
 
 const ColorBox = styled.div`
@@ -90,11 +80,11 @@ function BuildPage() {
     }
 
     const handleDeleteColor = (e, index) => {
-        e.stopPropagation();//
-        setColors(colors.filter((_, idx) => idx != index));
-        if (colorIndex > index) {
+        e.stopPropagation();
+        if (index === colorIndex) {
             setColorIndex(colorIndex - 1);
         }
+        setColors(colors.filter((_, idx) => idx != index));
     }
 
     const handleAddColor = index => {
@@ -164,43 +154,35 @@ function BuildPage() {
                         onChange={handleColorChange}
                     />
                 </Container>
-                <Container className="border bg-white px-0">
-                    <div className="d-flex">
-                        {colors.map((color, cIdx) => (
-                            <ColorBoxContainer
-                                className="rounded d-flex justify-content-center"
-                                key={cIdx}
-                                style={{ borderStyle: cIdx === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
-                                onClick={() => handleSelectColorBox(cIdx)}
-                            >
-                                <ColorBox
-                                    className="my-auto rounded"
-                                    style={{ backgroundColor: color.toRgbString() }}
-                                >
-                                    {cIdx !== colorIndex &&
-                                        <ColorBoxOverlay className="d-flex justify-content-center">
-                                            <DeleteColorButton
-                                                className="my-auto"
-                                                variant="dark"
-                                                onClick={(e) => handleDeleteColor(e, cIdx)}//added e
-                                            >
-                                                X
-                                                </DeleteColorButton>
-                                        </ColorBoxOverlay>
-                                    }
-                                </ColorBox>
-                            </ColorBoxContainer>
-                        ))}
-                        {colors.length < 10 &&
-                            <AddColorButton
-                                className="border text-center border-0 rounded p-0"
-                                variant="light"
-                                onClick={handleAddColor}
-                            >
-                                +
-                            </AddColorButton>
-                        }
+                <Container className="d-flex">
+                    <div className="font-weight-bold">Colors</div>
+                    <div className="ml-auto pb-2">
+                        <Plus size={25} style={{ cursor: "pointer" }} onClick={handleAddColor} />
+                        {colors.length > 1 && <Dash size={25} style={{ cursor: "pointer" }} onClick={(e) => handleDeleteColor(e, colorIndex)} />}
                     </div>
+                </Container>
+
+                <Container className="border bg-white">
+                    <Row>
+                        {colors.map((color, index) => (
+                            <ColorCol className="p-0">
+                                <ColorBoxContainer
+                                    className="rounded d-flex justify-content-center"
+                                    key={index}
+                                    style={{ borderStyle: index === colorIndex ? "solid" : "none", borderColor: "black", borderWidth: "2px" }}
+                                    onClick={() => handleSelectColorBox(index)}
+                                >
+                                    <div
+                                        className="rounded w-100 h-100"
+                                        style={{
+                                            backgroundColor: color.toRgbString(),
+                                            border: "1px solid white"
+                                        }}
+                                    />
+                                </ColorBoxContainer>
+                            </ColorCol>
+                        ))}
+                    </Row>
                 </Container>
                 {user && renderLoggedIn}
             </Container>

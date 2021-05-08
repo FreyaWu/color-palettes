@@ -150,9 +150,9 @@ function ShowPage() {
                 </div>
             </Row>
 
-            <div className="d-flex flex-wrap p-0 mb-4 ml-3 ml-lg-0">
+            <div className="d-flex flex-wrap w-100 mb-4">
                 {palette.colors && palette.colors.map(color =>
-                    <ColorCard key={color} color={color} addGrowShrink={palette.size <= 5} />
+                    <ColorCard key={color} color={color} lessOrEqualToFive={palette.size <= 5} />
                 )}
             </div>
         </Container >
