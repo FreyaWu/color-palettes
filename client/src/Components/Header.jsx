@@ -1,9 +1,7 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -65,6 +63,13 @@ function Header() {
     return (
         <NavbarContainer className="text-align-center" bg="light" expand="lg" sticky="top">
             <NavbarBrand variant="dark" href="/">Color Palettes</NavbarBrand>
+            <a
+                href='https://www.linkedin.com/in/freya-wu/'
+                className="pl-2 mr-auto"
+                style={{ fontSize: "1rem", color: "black" }}
+            >
+                by Freya
+            </a>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav" >
                 <Nav className="ml-auto mr-auto">

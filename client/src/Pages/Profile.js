@@ -1,8 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,29 +13,30 @@ import { selectAuth } from '../Reducers/auth';
 import PaletteCard from '../Components/PaletteCard';
 import UserService from '../Services/user';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
-import { TabletLandscape } from 'react-bootstrap-icons';
-import palette from '../Services/palette';
 
 function Profile() {
     const { user } = useSelector(selectAuth);
     // console.log(user);
     const [userPalettes, setUserPalettes] = useState([]);
     const [likedPalettes, setLikedPalettes] = useState([]);
+    const history = useHistory();
+
+    const fetchUserPalettes = async () => {
+        const { data: userPalettes } = await UserService.getUserPalettes();
+        setUserPalettes(userPalettes);
+    }
+
+    const fetchLikedPalettes = async () => {
+        const { data: likedPalettes } = await UserService.getLikedPalettes();
+        setLikedPalettes(likedPalettes);
+    };
 
     useEffect(() => {
-        let mounted = true;
-        const fetchUserPalettes = async () => {
-            const { data: userPalettes } = await UserService.getUserPalettes();
-            setUserPalettes(userPalettes);
+        if (user === "") {
+            history.push('/login');
         }
-        const fetchLikedPalettes = async () => {
-            const { data: likedPalettes } = await UserService.getLikedPalettes();
-            setLikedPalettes(likedPalettes);
-        };
-        if (mounted) {
-            user.username && fetchUserPalettes() && fetchLikedPalettes();
-        }
-        return () => { mounted = false }
+        fetchUserPalettes();
+        fetchLikedPalettes();
     }, [user, likedPalettes]);
 
     return (

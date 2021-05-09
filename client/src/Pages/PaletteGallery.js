@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 import PaletteCard from '../Components/PaletteCard';
 import PaletteService from '../Services/palette';
@@ -20,14 +18,13 @@ function PaletteGalleryPage() {
     // console.log('palette gallery');
 
     useEffect(() => {
-        let mounted = true;
         const fetchPalettes = async () => {
             const { data: palettes } = await PaletteService.getAllPalettes();
-            if (mounted) setPalettes(palettes);
+            setPalettes(palettes);
         };
         fetchPalettes();
-        return () => (mounted = false);
     }, []);
+
     return (
         <Container fluid className="mt-4">
             <MessageAlert />

@@ -46,7 +46,7 @@ function MyPicker({
                 </Col>
                 <Col xs={12} md className="ml-md-2">
                     <Row className="mb-3">
-                        <HueContainer className={{ touchAction: " none" }}>
+                        <HueContainer style={{ touchAction: " none" }}>
                             <Hue
                                 hsl={hsl}
                                 onChange={onChange}
@@ -54,7 +54,7 @@ function MyPicker({
                         </HueContainer>
                     </Row>
                     <Row className="my-3">
-                        <AlphaContainer className={{ touchAction: " none" }}>
+                        <AlphaContainer style={{ touchAction: " none" }}>
                             <Alpha
                                 rgb={rgb}
                                 hsl={hsl}

@@ -1,53 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import LikeButton from './LikeButton';
-import { HeartFill, EyeFill } from "react-bootstrap-icons";
+import { Heart, HeartFill, EyeFill } from "react-bootstrap-icons";
+import { LikeButton } from './PaletteCard';
 
 import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
-
-const CardOverlay = styled(Card.ImgOverlay)`
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    background: linear-gradient(
-        180deg,
-        transparent 62%,
-        rgba(0, 0, 0, 0.00345888) 63.94%,
-        rgba(0, 0, 0, 0.014204) 65.89%,
-        rgba(0, 0, 0, 0.0326639) 67.83%,
-        rgba(0, 0, 0, 0.0589645) 69.78%,
-        rgba(0, 0, 0, 0.0927099) 71.72%,
-        rgba(0, 0, 0, 0.132754) 73.67%,
-        rgba(0, 0, 0, 0.177076) 75.61%,
-        rgba(0, 0, 0, 0.222924) 77.56%,
-        rgba(0, 0, 0, 0.267246) 79.5%,
-        rgba(0, 0, 0, 0.30729) 81.44%,
-        rgba(0, 0, 0, 0.341035) 83.39%,
-        rgba(0, 0, 0, 0.367336) 85.33%,
-        rgba(0, 0, 0, 0.385796) 87.28%,
-        rgba(0, 0, 0, 0.396541) 89.22%,
-        rgba(0, 0, 0, 0.4) 91.17%
-    );
-`;
-
-const CardImageContainer = styled.div`
-    &:hover ${CardOverlay} {
-        opacity: 1;
-    }
-`;
+import { useSelector } from 'react-redux';
+import { selectAuth } from '../Reducers/auth';
 
 const CardImage = styled(Card.Img)`
-    height: 18vw;
-    min-height: 270px;
+    height: 270px;
     object-fit: cover;
-`;
-
-const PaletteContainer = styled.div`
-    display: flex;
 `;
 
 const ColorSpan = styled.span`
@@ -60,9 +25,25 @@ const ColorSpan = styled.span`
 
 
 function ArtworkCard({ artwork }) {
+    const { user } = useSelector(selectAuth);
+    const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(0);
     const colors = artwork.colors;
     const [views, setViews] = useState(artwork.views);
+
+    const fetchIsLiked = async () => {
+        if (!user) {
+            setIsLiked(false);
+            return;
+        }
+        try {
+            const { data: isLiked } = await LikeService.doesLikeExist(artwork._id);
+            setIsLiked(isLiked);
+        } catch (e) {
+            // throw Error(e);
+            console.log(e);
+        }
+    }
 
     const fetchLikes = async () => {
         const { data: likes } = await LikeService.getLikes(artwork._id);
@@ -75,6 +56,7 @@ function ArtworkCard({ artwork }) {
     }
 
     useEffect(() => {
+        fetchIsLiked();
         fetchLikes();
         fetchViews();
     }, [artwork._id])
@@ -92,31 +74,27 @@ function ArtworkCard({ artwork }) {
                     pathname: `/palettes/${artwork._id}`
                 }}
             >
-                <CardImageContainer className="position-relative">
+                <div className="position-relative">
                     <CardImage
                         className="img-fluid"
                         variant="top"
                         src={artwork.image}
                     />
-                    {/* <CardOverlay >
-                        <Card.Subtitle className="mb-2 text-muted ">Card Subtitle</Card.Subtitle>
-                        <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                        </Card.Text>
-                    </CardOverlay> */}
-                </CardImageContainer>
-                <PaletteContainer>
+                </div>
+                <div className="d-flex">
                     {colors.map(color => <ColorSpan key={color} color={color} colorSize={colors.length} />)}
-                </PaletteContainer>
-                {/* <Card.Body>
-                <p>test</p>
-            </Card.Body> */}
+                </div>
             </Link>
             <Card.Footer className="d-flex border rounded-bottom bg-white">
                 <h6 className="m-0 align-items-center">by {artwork.author.username}</h6>
                 <div className="d-flex ml-auto align-items-center">
-                    <HeartFill onClick={addLike} variant="transparent" className="mr-1" />
+                    <LikeButton isLiked={isLiked} isLoggedIn={user.username} onClick={addLike}>
+                        {user.username ?
+                            (isLiked ? <HeartFill className="mr-1" /> :
+                                <Heart className="mr-1" />) :
+                            <HeartFill className="mr-1" />
+                        }
+                    </LikeButton>
                     <div className="">{likes}</div>
                 </div>
                 <div className="d-flex ml-2 align-items-center">

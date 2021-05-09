@@ -1,12 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { selectAuth } from '../Reducers/auth'; 
+import { selectAuth } from '../Reducers/auth';
 
 import Container from 'react-bootstrap/Container';
-import Cover from '../Components/Cover';
 import ArtworkCard from '../Components/ArtworkCard';
 import ArtworkService from '../Services/artwork';
 import MessageAlert from '../Components/MessageAlert';
@@ -22,16 +20,14 @@ const ArtworksContainer = styled.div`
 
 function GalleryPage() {
     const [artworks, setArtworks] = useState([]);
-    const {user} = useSelector(selectAuth);
+    const { user } = useSelector(selectAuth);
 
     useEffect(() => {
-        let mounted = true;
         const fetchArtworks = async () => {
             const { data: artworks } = await ArtworkService.getAllArtworks();
-            if (mounted) setArtworks(artworks);
+            setArtworks(artworks);
         };
         fetchArtworks();
-        return () => (mounted = false);
     }, []);
 
     return (

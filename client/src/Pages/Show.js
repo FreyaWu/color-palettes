@@ -15,7 +15,6 @@ import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
 import { HeartFill, TrashFill, EyeFill, PencilSquare, Link45deg } from 'react-bootstrap-icons';
-import artwork from '../Services/artwork';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -84,13 +83,9 @@ function ShowPage() {
     }
 
     useEffect(() => {
-        let mounted = true;
-        if (mounted) {
-            fetchPalette();
-            fetchIsLiked();
-            fetchViews();
-        }
-        return () => { mounted = false }
+        fetchPalette();
+        fetchIsLiked();
+        fetchViews();
     }, [paletteId, isLiked])
 
     const renderColorDiv = (

@@ -119,8 +119,8 @@ function BuildPage() {
         }
         for (let i = 0; i < colors.length; i++) {
             if (i === colorIndex) continue;
-            if (colors[i] === currentColor()) {
-                dispatch(setMessage("danger", `Color ${currentColor().toHex8String} already exists.`));
+            if (colors[i].toHex8String() === currentColor().toHex8String()) {
+                dispatch(setMessage("danger", `Color ${currentColor().toHex8String()} already exists.`));
                 return;
             }
         }
@@ -174,7 +174,7 @@ function BuildPage() {
 
     return (
         <>
-            {user && <MessageAlert />}
+            <MessageAlert />
             <Container fluid className="bg-light px-0 pb-5 h-100">
                 <ColorDiv color={currentColor().toRgbString()} />
 

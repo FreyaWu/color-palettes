@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';// hook, subscribe the component to store
-import { Link, useParams, useLocation, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { selectAuth } from '../Reducers/auth';
 import tinyColor from 'tinycolor2';
 import styled from 'styled-components';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
@@ -16,7 +15,6 @@ import ColorPicker from '../Components/Color-picker/ColorPicker';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import PaletteService from '../Services/palette';
 import { ColorDiv, ColorCol, ColorBoxContainer } from './Build';
-import axios from 'axios';
 
 const ColorBoxOverlay = styled.div`
     opacity: 0;

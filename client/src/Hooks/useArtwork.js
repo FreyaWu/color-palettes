@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function useArtwork(id) {
-    const[data, setData] = useState({});
+    const [data, setData] = useState({});
     useEffect(() => {
-        console.log("artwork called");
         const fetchData = async () => {
             const response = await axios.get(`/artworks/${id}`);
             setData(response.data);
