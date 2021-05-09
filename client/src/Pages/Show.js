@@ -14,7 +14,7 @@ import PaletteService from '../Services/palette';
 import LikeService from '../Services/like';
 import withHeaderFooter from '../Hocs/withHeaderFooter';
 import MessageAlert from '../Components/MessageAlert';
-import { HeartFill, TrashFill, EyeFill, PencilSquare, Link45deg } from 'react-bootstrap-icons';
+import { Heart, HeartFill, TrashFill, EyeFill, PencilSquare, Link45deg } from 'react-bootstrap-icons';
 
 const ColorDiv = styled.div`
     flex: 1 1 0;
@@ -22,11 +22,20 @@ const ColorDiv = styled.div`
     padding-top: 25%;
 `;
 
+const LikeButton = styled.div`
+    cursor: ${({ isLoggedIn }) => isLoggedIn && 'pointer'};
+    color: ${({ isLiked }) => isLiked && 'red'};
+    &:hover {
+        color: ${({ isLoggedIn }) => isLoggedIn && 'red'};
+    }
+`;
+
 function ShowPage() {
     const { paletteId } = useParams();
     const { user } = useSelector(selectAuth);
     const [palette, setPalette] = useState({});
     const [isLiked, setIsLiked] = useState(false);
+    const [numLikes, setNumLikes] = useState(0);
     const [views, setViews] = useState(0);
     const history = useHistory();
 
@@ -45,6 +54,15 @@ function ShowPage() {
         try {
             const { data: isLiked } = await LikeService.doesLikeExist(paletteId);
             setIsLiked(isLiked);
+        } catch (e) {
+            throw Error(e);
+        }
+    }
+
+    const fetchNumLikes = async () => {
+        try {
+            const { data: likes } = await LikeService.getLikes(paletteId);
+            setNumLikes(likes);
         } catch (e) {
             throw Error(e);
         }
@@ -85,8 +103,9 @@ function ShowPage() {
     useEffect(() => {
         fetchPalette();
         fetchIsLiked();
+        fetchNumLikes();
         fetchViews();
-    }, [paletteId, isLiked])
+    }, [paletteId, isLiked, user])
 
     const renderColorDiv = (
         <Container fluid className="d-flex p-0 bg-white">
@@ -121,11 +140,18 @@ function ShowPage() {
                     <EyeFill variant="transparent" className="mr-1" />
                     <div className="mr-1">{views}</div>
                 </div>
-                <div>
-                    {user.username && <Button variant={isLiked ? "danger" : "outline-danger"} onClick={handleClickLike}>
-                        <HeartFill /> {isLiked ? "Liked" : "Like"}
-                    </Button>}
+
+                <div className="d-flex align-items-center">
+                    <LikeButton isLiked={isLiked} isLoggedIn={user.username} onClick={handleClickLike}>
+                        {user.username ?
+                            (isLiked ? <HeartFill variant="transparent" className="mr-1" /> :
+                                <Heart variant="transparent" className="mr-1" />) :
+                            <HeartFill className="mr-1" />
+                        }
+                    </LikeButton>
+                    <div className="">{numLikes}</div>
                 </div>
+
                 <div className="pt-2 pt-md-0">
                     {user.username && palette.author && palette.author.username === user.username &&
                         <>
