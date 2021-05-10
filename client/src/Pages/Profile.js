@@ -37,7 +37,7 @@ function Profile() {
         }
         fetchUserPalettes();
         fetchLikedPalettes();
-    }, [user, likedPalettes]);
+    }, [user]);
 
     return (
         <Container fluid>
@@ -55,9 +55,12 @@ function Profile() {
                                 <Container>
                                     <Row>
                                         {userPalettes && userPalettes.map(palette => (
-                                            <Col sm={12} md={6} lg={4}>
+                                            <Col sm={12} md={6} lg={4} key={palette._id} >
                                                 <div className="my-3">
-                                                    <PaletteCard key={palette._id} {...palette} />
+                                                    <PaletteCard
+                                                        palette={palette}
+                                                        onLiked={fetchLikedPalettes}
+                                                    />
                                                 </div>
                                             </Col>
                                         ))}
@@ -75,9 +78,12 @@ function Profile() {
                                 <Container>
                                     <Row>
                                         {likedPalettes && likedPalettes.map(palette => (
-                                            <Col sm={12} md={6} lg={4}>
+                                            <Col sm={12} md={6} lg={4} key={palette._id} >
                                                 <div className="my-3">
-                                                    <PaletteCard key={palette._id} {...palette} />
+                                                    <PaletteCard
+                                                        palette={palette}
+                                                        onLiked={fetchLikedPalettes}
+                                                    />
                                                 </div>
                                             </Col>
                                         ))}

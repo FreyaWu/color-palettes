@@ -42,7 +42,7 @@ function ShowPage() {
     const fetchViews = async () => {
         const { data: views } = await PaletteService.getPaletteViews(paletteId);
         setViews(views + 1);
-        const newViews = await PaletteService.updatePaletteViews(paletteId, views + 1);
+        await PaletteService.updatePaletteViews(paletteId, views + 1);
     }
 
 
@@ -101,11 +101,14 @@ function ShowPage() {
     }
 
     useEffect(() => {
+        fetchViews();
+    }, [])
+
+    useEffect(() => {
         fetchPalette();
         fetchIsLiked();
         fetchNumLikes();
-        fetchViews();
-    }, [paletteId, isLiked, user])
+    }, [isLiked, user])
 
     const renderColorDiv = (
         <Container fluid className="d-flex p-0 bg-white">

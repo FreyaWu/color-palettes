@@ -35,11 +35,12 @@ const CardThumbnail = styled.div`
 `;
 
 
-function PaletteCard({ _id, colors, size, author, onLiked, image }) {
+function PaletteCard(props) {
     const { user } = useSelector(selectAuth);
     const [isLiked, setIsLiked] = useState(false);
     const [numLikes, setNumLikes] = useState(0);
     const [views, setViews] = useState(0);
+    const { _id, colors, size, author, image } = props.palette;
 
     const fetchViews = async () => {
         const { data: views } = await PaletteService.getPaletteViews(_id);
@@ -73,7 +74,7 @@ function PaletteCard({ _id, colors, size, author, onLiked, image }) {
         fetchIsLiked();
         fetchNumLikes();
         fetchViews();
-    }, [_id, user]);
+    }, [user]);
 
     const handleClickLike = async () => {
         if (!user.username) return;
@@ -85,10 +86,9 @@ function PaletteCard({ _id, colors, size, author, onLiked, image }) {
             }
             fetchIsLiked();
             fetchNumLikes();
-            // if (onLiked != null) {
-            //     console.log(onLiked);
-            //     onLiked();
-            // }
+            if (props.onLiked != null) {
+                props.onLiked();
+            }
         } catch (e) {
             throw Error(e);
         }

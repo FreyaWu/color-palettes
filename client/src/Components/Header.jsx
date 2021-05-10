@@ -76,7 +76,7 @@ function Header() {
                     <NavlinkContainer href="/palettes">Palettes</NavlinkContainer>
                     <NavlinkContainer href="/build">Build</NavlinkContainer>
                     <NavlinkContainer href="/gallery">Gallery</NavlinkContainer>
-                    {user && <NavlinkContainer href="/profile">My page</NavlinkContainer>}
+                    {user && <NavlinkContainer href="/profile">My Page</NavlinkContainer>}
                 </Nav>
                 {user ? renderLoggedIn : renderLoggedOut}
             </Navbar.Collapse>

@@ -30,7 +30,7 @@ function PaletteGalleryPage() {
             <MessageAlert />
             <PalettesContainer className="px-4 card-deck">
                 {palettes.map(palette => (
-                    <PaletteCard key={palette._id} {...palette} />
+                    <PaletteCard key={palette._id} palette={palette} />
                 ))}
             </PalettesContainer>
         </Container>
