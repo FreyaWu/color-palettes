@@ -96,6 +96,8 @@ function BuildPage() {
         setColorIndex(index);
     }
 
+    console.log('DEBUG >>> currentColor:', currentColor());
+
     const handleColorChange = color => {
         setColors([
             ...colors.slice(0, colorIndex),

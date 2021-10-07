@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { WindowSidebar } from 'react-bootstrap-icons';
 import { EditableInput } from 'react-color/lib/components/common'
 // import colorUtil from '../../utils/color';
 import styled, { isStyledComponent } from 'styled-components';
@@ -14,12 +15,28 @@ const DoubleWeightInput = styled.div`
     flex: 2;
 `;
 
+// use DOM to get the values in the input fields
+
+
+
+
+
 function ColorPickerFields({
     rgb,
     hsl,
     hex,
-    onChange
+    onChange,
 }) {
+
+    const input_Hex = document.querySelector('#hex_input');
+    console.log("DEBUG >>> INPUT HEX", input_Hex);
+    console.log('DEBUG >>> HEX:', hex);
+
+    // useEffect(() => {
+    //     handleChange(rgb);
+    //     handleChange(hsl);
+    //     handleChange(hex);
+    // }, [])
 
     const styles = {
         input: {
@@ -39,6 +56,7 @@ function ColorPickerFields({
     }
 
     const handleChange = (data, e) => {
+        console.log("DEBUG >>> Change color triggered", data);
         if (data.hex) {
             colorUtil.isValidHex(data.hex) && onChange({
                 hex: data.hex,
@@ -70,14 +88,22 @@ function ColorPickerFields({
         }
     }
 
+    const myChange = (e) => {
+        console.log('DEBUG >>> event: ', e);
+    }
+
     return (
         <div className="d-flex">
             <DoubleWeightInput>
                 <EditableInput
+                    id="hex_input"
                     style={{ input: styles.input, label: styles.label }}
                     label="hex"
                     value={hex}
                     onChange={handleChange}
+                    onInput={(e) => {
+                        console.log("DEBUG >>> onInput", e)
+                    }}
                 />
             </DoubleWeightInput>
             <SingleWeightInput>
@@ -120,6 +146,12 @@ function ColorPickerFields({
                     dragMax="100"
                 />
             </SingleWeightInput>
+            {/* <SingleWeightInput>
+                <input
+                    value={rgb.r}
+                    onChange={myChange}
+                />
+            </SingleWeightInput> */}
         </div>
     )
 }

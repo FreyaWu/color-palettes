@@ -78,6 +78,8 @@ app.get('/', (req, res) => {
     res.send('Welcome to homepage!');
 })
 
+app.use((req, res) => res.sendStatus(404));
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
     console.log(`Serving on port ${port}`);

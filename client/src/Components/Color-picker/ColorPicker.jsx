@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CustomPicker } from 'react-color'
 import { Hue, Alpha, Saturation } from 'react-color/lib/components/common'
 import ColorPickerFields from './ColorPickerFields';
@@ -32,6 +32,7 @@ function MyPicker({
     rgb,
     onChange
 }) {
+
     return (
         <Container fluid>
             <Row className="my-4">
@@ -68,6 +69,7 @@ function MyPicker({
                             hsl={hsl}
                             hex={hex}
                             onChange={onChange}
+                            onInput={onChange}
                         />
                     </Row>
                 </Col>
